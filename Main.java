@@ -68,12 +68,14 @@ public class Main extends Application {
     // Create buttons and format
     Button newDataFile = buttonFormat("Upload Data File", 1);
     newDataFile.setMinWidth(dataInputOptions.getPrefWidth());
-    Button addDataField = buttonFormat("Add / Edit Data Field", 1);
-    addDataField.setMinWidth(dataInputOptions.getPrefWidth());
+    Button addDataPoint = buttonFormat("Add Data Field", 1);
+    addDataPoint.setMinWidth(dataInputOptions.getPrefWidth());
+    Button editDataField = buttonFormat("Edit Data Field", 1);
+    editDataField.setMinWidth(dataInputOptions.getPrefWidth());
     Button removeData = buttonFormat("Remove Data Field", 1);
     removeData.setMinWidth(dataInputOptions.getPrefWidth());
     // Add buttons
-    dataInputOptions.getChildren().addAll(newDataFile, addDataField, removeData);
+    dataInputOptions.getChildren().addAll(newDataFile, addDataPoint, editDataField, removeData);
     // Add to main scene
     root.setLeft(dataInputOptions);
 
@@ -81,7 +83,8 @@ public class Main extends Application {
      * Handle button presses
      */
     newDataFile.setOnAction(e -> newDataFile(primaryStage));
-    addDataField.setOnAction(e -> addEditDataField(primaryStage));
+    addDataPoint.setOnAction(e -> addDataField(primaryStage));
+    editDataField.setOnAction(e -> editDataField(primaryStage));
     removeData.setOnAction(e -> removeDataField(primaryStage));
 
     /*
@@ -166,11 +169,16 @@ public class Main extends Application {
     String title = "Upload Data File";
 
     VBox vbox = vboxFormat();
-
+    Label direction1 = new Label("Enter Farm ID");
+    direction1.setFont(new Font("Arial", 15));
+    TextField farmID = new TextField();
+    HBox hbox = hboxFormat();
+    hbox.getChildren().addAll(direction1, farmID);
+    
     Label title1 = new Label("Input File Name with Extension");
     title1.setFont(new Font("Arial", 15));
-    Label direction = new Label("enter file name, hit enter, then done");
-    direction.setFont(new Font("Arial", 10));
+    Label direction2 = new Label("enter file name, hit enter, then done");
+    direction2.setFont(new Font("Arial", 10));
     TextField userInput = new TextField();
     // TODO program text field event, this is where the file name will be collected, send to another
     // class to handle! Below is a possible method call from the event
@@ -179,7 +187,44 @@ public class Main extends Application {
     // Add done button
     Button done = buttonFormat("Done", 3);
 
-    vbox.getChildren().addAll(title1, userInput, direction, done);
+    vbox.getChildren().addAll(hbox, title1, userInput, direction2, done);
+    showDialogWindow(primaryStage, vbox, title, done);
+  }
+  
+  public void addDataField(Stage primaryStage) {
+    String title = "ADD Data Field";
+    VBox vbox = vboxFormat();
+
+
+    Label title1 = new Label("Input Data Details");
+    title1.setFont(new Font("Arial", 15));
+
+    HBox hbox1 = hboxFormat();
+    Label direction1 = new Label("Farm ID");
+    direction1.setFont(new Font("Arial", 12));
+    TextField farmID = new TextField();
+    hbox1.getChildren().addAll(direction1, farmID);
+    
+    HBox hbox2 = hboxFormat();
+    Label direction2 = new Label("Date (Month / Year)");
+    direction2.setFont(new Font("Arial", 12));
+    ObservableList<String> months = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6",
+        "7", "8", "9", "10", "11", "12");
+    ComboBox<String> month = new ComboBox<String>(months);
+    TextField year = new TextField();
+    hbox2.getChildren().addAll(direction2, month, year);
+    
+    HBox hbox3 = hboxFormat();
+    Label direction3 = new Label("Milk Weight (lbs)");
+    direction3.setFont(new Font("Arial", 12));
+    TextField milkWeight = new TextField();
+    hbox3.getChildren().addAll(direction3, milkWeight);
+
+    // Add done button
+    Button done = buttonFormat("Done", 3);
+    
+    // Add to layout
+    vbox.getChildren().addAll(title1, hbox1, hbox2, hbox3, done);
     showDialogWindow(primaryStage, vbox, title, done);
   }
 
@@ -192,8 +237,8 @@ public class Main extends Application {
    * 
    * @param primaryStage - main GUI
    */
-  public void addEditDataField(Stage primaryStage) {
-    String title = "Add / Edit Data Field to Existing Farm";
+  public void editDataField(Stage primaryStage) {
+    String title = "Edit Data Field of Existing Farm";
     VBox vbox = vboxFormat();
 
 
