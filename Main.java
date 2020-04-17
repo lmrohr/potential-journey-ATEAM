@@ -22,11 +22,16 @@ package application;
 
 import java.io.File;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -63,14 +68,12 @@ public class Main extends Application {
     // Create buttons and format
     Button newDataFile = buttonFormat("Upload Data File", 1);
     newDataFile.setMinWidth(dataInputOptions.getPrefWidth());
-    Button addDataField = buttonFormat("Add Data Field", 1);
+    Button addDataField = buttonFormat("Add / Edit Data Field", 1);
     addDataField.setMinWidth(dataInputOptions.getPrefWidth());
     Button removeData = buttonFormat("Remove Data Field", 1);
     removeData.setMinWidth(dataInputOptions.getPrefWidth());
-    Button editDataField = buttonFormat("Edit Data Field", 1);
-    editDataField.setMinWidth(dataInputOptions.getPrefWidth());
     // Add buttons
-    dataInputOptions.getChildren().addAll(newDataFile, addDataField, removeData, editDataField);
+    dataInputOptions.getChildren().addAll(newDataFile, addDataField, removeData);
     // Add to main scene
     root.setLeft(dataInputOptions);
 
@@ -78,8 +81,8 @@ public class Main extends Application {
      * Handle button presses
      */
     newDataFile.setOnAction(e -> newDataFile(primaryStage));
-
-
+    addDataField.setOnAction(e -> addEditDataField(primaryStage));
+    removeData.setOnAction(e -> removeDataField(primaryStage));
 
     /*
      * Center panel: view data on all farms
@@ -99,8 +102,16 @@ public class Main extends Application {
     HBox timeSelect = hboxFormat();
     timeSelect.setPrefWidth(150); // Preferred with of each element in the hbox
     timeSelect.getChildren().addAll(allFarmLabel, byYear, byMonth);
+    // TODO create display tables
+    TableView<String> table = new TableView<String>();
+    TableColumn<String, Object> column1 = new TableColumn<>("Date");
+    TableColumn<String, Object> column2 = new TableColumn<>("Farm ID");
+    TableColumn<String, Object> column3 = new TableColumn<>("Milk Amount (lbs)");
+    TableColumn<String, Object> column4 = new TableColumn<>("Percent Share");
+    table.getColumns().addAll(column1, column2, column3, column4);
+    
     VBox allFarms = vboxFormat();
-    allFarms.getChildren().add(timeSelect);
+    allFarms.getChildren().addAll(timeSelect, table);
     // Add to main scene
     root.setCenter(allFarms);
 
@@ -148,10 +159,12 @@ public class Main extends Application {
 
   /**
    * Handles the first dialog window: Upload Data File
+   * 
+   * @param primaryStage - main GUI
    */
   public void newDataFile(Stage primaryStage) {
     String title = "Upload Data File";
-    
+
     VBox vbox = vboxFormat();
 
     Label title1 = new Label("Input File Name with Extension");
@@ -163,34 +176,127 @@ public class Main extends Application {
     // class to handle! Below is a possible method call from the event
     // userInput.setOnAction(e -> newDataFile(userInput.getText()));
 
-    vbox.getChildren().addAll(title1, userInput, direction);
-    showDialogWindow(primaryStage, vbox, title);
+    // Add done button
+    Button done = buttonFormat("Done", 3);
+
+    vbox.getChildren().addAll(title1, userInput, direction, done);
+    showDialogWindow(primaryStage, vbox, title, done);
+  }
+
+  /**
+   * Handles the second dialog window: Add / Edit Data Field
+   * 
+   * Given a FarmID and Month / year, if the data point exists then the weight will be changed /
+   * updated. Otherwise, a new data point of the specified month and year will be added to the
+   * FarmID.
+   * 
+   * @param primaryStage - main GUI
+   */
+  public void addEditDataField(Stage primaryStage) {
+    String title = "Add / Edit Data Field to Existing Farm";
+    VBox vbox = vboxFormat();
+
+
+    Label title1 = new Label("Input Data Details");
+    title1.setFont(new Font("Arial", 15));
+
+    HBox hbox1 = hboxFormat();
+    Label direction1 = new Label("Farm ID");
+    direction1.setFont(new Font("Arial", 12));
+    // TODO update farm IDs with available selection of ID's
+    ObservableList<String> farmIDs = FXCollections.observableArrayList("Farm 0233", "Farm 0099");
+    ComboBox<String> farmID = new ComboBox<String>(farmIDs);
+    hbox1.getChildren().addAll(direction1, farmID);
+
+    HBox hbox2 = hboxFormat();
+    Label direction2 = new Label("Date (Month / Year)");
+    direction2.setFont(new Font("Arial", 12));
+    // TODO get list of available months from farm class
+    ObservableList<String> months = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6",
+        "7", "8", "9", "10", "11", "12");
+    ComboBox<String> month = new ComboBox<String>(months);
+    // TODO get list of available years from farm class
+    ObservableList<String> years =
+        FXCollections.observableArrayList("2015", "2016", "2019", "2020");
+    ComboBox<String> year = new ComboBox<String>(years);
+    hbox2.getChildren().addAll(direction2, month, year);
+
+    HBox hbox3 = hboxFormat();
+    Label direction3 = new Label("Milk Weight (lbs)");
+    direction3.setFont(new Font("Arial", 12));
+    TextField milkWeight = new TextField();
+    hbox3.getChildren().addAll(direction3, milkWeight);
+
+    // Add done button
+    Button done = buttonFormat("Done", 3);
+    // TODO create new data field in farm class based on selections
+    // done.setOnActions(e -> addDataField(farmID.getSelection(), month.getSelection(),
+    // year.getSelection(), year.getSelection(), milkWeight.getText());
+
+    vbox.getChildren().addAll(title1, hbox1, hbox2, hbox3, done);
+    showDialogWindow(primaryStage, vbox, title, done);
+  }
+
+  public void removeDataField(Stage primaryStage) {
+    String title = "Remove Data Field";
+    VBox vbox = vboxFormat();
+
+    Label title1 = new Label("Remove Existing Data Field");
+    title1.setFont(new Font("Arial", 15));
+
+    HBox hbox1 = hboxFormat();
+    Label direction1 = new Label("Farm ID");
+    direction1.setFont(new Font("Arial", 12));
+    // TODO update farm IDs with available selection of ID's
+    ObservableList<String> farmIDs = FXCollections.observableArrayList("Farm 0233", "Farm 0099");
+    ComboBox<String> farmID = new ComboBox<String>(farmIDs);
+    hbox1.getChildren().addAll(direction1, farmID);
+
+    HBox hbox2 = hboxFormat();
+    Label direction2 = new Label("Date (Month / Year)");
+    direction2.setFont(new Font("Arial", 12));
+    // TODO get list of available months from farm class
+    ObservableList<String> months = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6",
+        "7", "8", "9", "10", "11", "12");
+    ComboBox<String> month = new ComboBox<String>(months);
+    // TODO get list of available years from farm class
+    ObservableList<String> years =
+        FXCollections.observableArrayList("2015", "2016", "2019", "2020");
+    ComboBox<String> year = new ComboBox<String>(years);
+    hbox2.getChildren().addAll(direction2, month, year);
+
+    // Add done button
+    Button done = buttonFormat("Done", 3);
+    // TODO create new data field in farm class based on selections
+    // done.setOnActions(e -> addDataField(farmID.getSelection(), month.getSelection(),
+    // year.getSelection(), year.getSelection(), milkWeight.getText());
+
+    vbox.getChildren().addAll(title1, hbox1, hbox2, done);
+    showDialogWindow(primaryStage, vbox, title, done);
   }
 
   /**
    * Show when event occurs
    * 
-   * @param primaryStage
-   * @param display
+   * @param primaryStage of main GUI
+   * @param vbox         - box containing the window content
+   * @param title        - title of the window
    */
-  public void showDialogWindow(Stage primaryStage, VBox vbox, String title) {
-    // Create layout 
+  public void showDialogWindow(Stage primaryStage, VBox vbox, String title, Button done) {
+    // Create layout
     BorderPane layout = new BorderPane();
-    // Add upload button
-    Button done = buttonFormat("Done", 3);
-    vbox.getChildren().add(done);
     layout.setCenter(vbox);
-    
+
     // Show Modal Dialog Window
-    Scene inputScene = new Scene(layout, 300, 200);
+    Scene inputScene = new Scene(layout, 350, 250);
     final Stage userInputs = new Stage();
     userInputs.initModality(Modality.APPLICATION_MODAL);
     userInputs.initOwner(primaryStage);
     userInputs.setScene(inputScene);
     userInputs.setTitle(title);
     userInputs.show();
-    
-    // Add functionality to upload button 
+
+    // Add functionality to upload button
     done.setOnAction(e -> userInputs.close());
   }
 
@@ -237,7 +343,7 @@ public class Main extends Application {
     HBox hbox = new HBox(10); // 10 = spacing between elements
     return hbox;
   }
-  
+
 
   private VBox bottomStatTitles(String title1, String in1, String in2, TextField userInput1,
       TextField userInput2) {
