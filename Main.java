@@ -123,21 +123,34 @@ public class Main extends Application {
 		/*
 		 * Bottom panel:
 		 */
+
+		// lists for ComboBoxes
+		ObservableList<String> Farms = FXCollections.observableArrayList("F001", "F002", "F003", "F004", "F005");
+		ObservableList<String> years = FXCollections.observableArrayList("2000", "2005", "2010", "2015", "2020");
+		ObservableList<String> months = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6", "7", "8", "9",
+				"10", "11", "12");
+
 		// Statistics Per Farm
-		TextField s1FarmID = new TextField();
-		TextField s1Year = new TextField();
+		ComboBox<String> s1FarmID = new ComboBox<String>(Farms);
+		ComboBox<String> s1Year = new ComboBox<String>(years);
+		// TextField s1FarmID = new TextField();
+		// TextField s1Year = new TextField();
 		VBox statPerFarm = bottomStatTitles("Statistics Per Farm", "Farm ID: ", "Year: ", s1FarmID, s1Year);
 		// TODO add tables to vbox
 
 		// Statistics Per All Farms
-		TextField s2Month = new TextField();
-		TextField s2Year = new TextField();
+		ComboBox<String> s2Month = new ComboBox<String>(months);
+		ComboBox<String> s2Year = new ComboBox<String>(years);
+		// TextField s2Month = new TextField();
+		// TextField s2Year = new TextField();
 		VBox statAllFarm = bottomStatTitles("Statistics Per All Farms", "Month: ", "Year: ", s2Month, s2Year);
 		// TODO add tables to vbox
 
 		// Farm Share of Net Sales
-		TextField s3FarmID = new TextField();
-		TextField s3Year = new TextField();
+		ComboBox<String> s3FarmID = new ComboBox<String>(Farms);
+		ComboBox<String> s3Year = new ComboBox<String>(years);
+		// TextField s3FarmID = new TextField();
+		// TextField s3Year = new TextField();
 		VBox statNetSales = bottomStatTitles("Farm Share of Net Sales", "Farm ID: ", " Year: ", s3FarmID, s3Year);
 		// TODO add tables to vbox
 
@@ -395,6 +408,30 @@ public class Main extends Application {
 		Label title = new Label(title1);
 		title.setFont(new Font("Arial", 15));
 		title.setStyle("-fx-font-weight: bold");
+		// Input 1
+		HBox hbox1 = hboxFormat();
+		Label input1 = new Label(in1);
+		input1.setFont(new Font("Arial", 15));
+		hbox1.getChildren().addAll(input1, userInput1);
+
+		// Input 2
+		HBox hbox2 = hboxFormat();
+		Label input2 = new Label(in2);
+		input2.setFont(new Font("Arial", 15));
+		hbox2.getChildren().addAll(input2, userInput2);
+
+		vbox.getChildren().addAll(title, hbox1, hbox2);
+
+		return vbox;
+	}
+
+	private VBox bottomStatTitles(String title1, String in1, String in2, ComboBox<String> userInput1,
+			ComboBox<String> userInput2) {
+		VBox vbox = vboxFormat();
+		Label title = new Label(title1);
+		title.setFont(new Font("Arial", 15));
+		title.setStyle("-fx-font-weight: bold");
+
 		// Input 1
 		HBox hbox1 = hboxFormat();
 		Label input1 = new Label(in1);
