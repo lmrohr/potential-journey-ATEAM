@@ -12,11 +12,11 @@
  * 
  * IDE: Eclipse IDE for Java Developers Version: Build id:
  * 
- * List Collaborators: Name, email@wisc.edu, lecture number
+ * List Collaborators: N/A
  * 
- * Other Credits: describe other source or people
+ * Other Credits: N/A
  * 
- * Known Bugs: describe known unresolved bugs here
+ * Known Bugs: N/A
  */
 package application;
 
@@ -43,7 +43,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * Main - TODO Describe purpose of this user defined type
+ * Main - TODO Describe purpose of this user defined type Main sets up the GUI.
+ * It includes formatting of components, creation of add, edit, and remove
+ * buttons, and graphic displays for visualizing data.
  * 
  * @author Lauren Rohr, Kiley Smith, Anna Keller, Luke Le Clair
  *
@@ -53,7 +55,12 @@ public class Main extends Application {
 	private static final int WINDOW_WIDTH = 900;
 	private static final int WINDOW_HEIGHT = 700;
 	private static final String APP_TITLE = "Milk Weight";
-	private int counter = 2010;
+	private int counter = 2010; // Default year setting for 'Add data'
+	// TODO get list of available years and Farms from farm class
+	private ObservableList<String> Farms = FXCollections.observableArrayList("F001", "F002", "F003", "F004", "F005");
+	private ObservableList<String> years = FXCollections.observableArrayList("2000", "2005", "2010", "2015", "2020");
+	private static final ObservableList<String> months = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6",
+			"7", "8", "9", "10", "11", "12");
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -123,35 +130,31 @@ public class Main extends Application {
 		/*
 		 * Bottom panel:
 		 */
-
-		// lists for ComboBoxes
-		ObservableList<String> Farms = FXCollections.observableArrayList("F001", "F002", "F003", "F004", "F005");
-		ObservableList<String> years = FXCollections.observableArrayList("2000", "2005", "2010", "2015", "2020");
-		ObservableList<String> months = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6", "7", "8", "9",
-				"10", "11", "12");
-
 		// Statistics Per Farm
 		ComboBox<String> s1FarmID = new ComboBox<String>(Farms);
 		ComboBox<String> s1Year = new ComboBox<String>(years);
+		Button eb1 = new Button("Enter");
 		// TextField s1FarmID = new TextField();
 		// TextField s1Year = new TextField();
-		VBox statPerFarm = bottomStatTitles("Statistics Per Farm", "Farm ID: ", "Year: ", s1FarmID, s1Year);
+		VBox statPerFarm = bottomStatTitles("Statistics Per Farm", "Farm ID: ", "Year: ", s1FarmID, s1Year, eb1);
 		// TODO add tables to vbox
 
 		// Statistics Per All Farms
 		ComboBox<String> s2Month = new ComboBox<String>(months);
 		ComboBox<String> s2Year = new ComboBox<String>(years);
+		Button eb2 = new Button("Enter");
 		// TextField s2Month = new TextField();
 		// TextField s2Year = new TextField();
-		VBox statAllFarm = bottomStatTitles("Statistics Per All Farms", "Month: ", "Year: ", s2Month, s2Year);
+		VBox statAllFarm = bottomStatTitles("Statistics Per All Farms", "Month: ", "Year: ", s2Month, s2Year, eb2);
 		// TODO add tables to vbox
 
 		// Farm Share of Net Sales
 		ComboBox<String> s3FarmID = new ComboBox<String>(Farms);
 		ComboBox<String> s3Year = new ComboBox<String>(years);
+		Button eb3 = new Button("Enter");
 		// TextField s3FarmID = new TextField();
 		// TextField s3Year = new TextField();
-		VBox statNetSales = bottomStatTitles("Farm Share of Net Sales", "Farm ID: ", " Year: ", s3FarmID, s3Year);
+		VBox statNetSales = bottomStatTitles("Farm Share of Net Sales", "Farm ID: ", " Year: ", s3FarmID, s3Year, eb3);
 		// TODO add tables to vbox
 
 		// Add to bottom pane in horizontal box
@@ -217,8 +220,6 @@ public class Main extends Application {
 		HBox hbox2 = hboxFormat();
 		Label direction2 = new Label("Date (Month / Year)");
 		direction2.setFont(new Font("Arial", 12));
-		ObservableList<String> months = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6", "7", "8", "9",
-				"10", "11", "12");
 		ComboBox<String> month = new ComboBox<String>(months);
 		// controlled year entry by incrementing with +,- buttons
 		Button yearUp = new Button("+");
@@ -262,20 +263,13 @@ public class Main extends Application {
 		HBox hbox1 = hboxFormat();
 		Label direction1 = new Label("Farm ID");
 		direction1.setFont(new Font("Arial", 12));
-		// TODO update farm IDs with available selection of ID's
-		ObservableList<String> farmIDs = FXCollections.observableArrayList("Farm 0233", "Farm 0099");
-		ComboBox<String> farmID = new ComboBox<String>(farmIDs);
+		ComboBox<String> farmID = new ComboBox<String>(Farms);
 		hbox1.getChildren().addAll(direction1, farmID);
 
 		HBox hbox2 = hboxFormat();
 		Label direction2 = new Label("Date (Month / Year)");
 		direction2.setFont(new Font("Arial", 12));
-		// TODO get list of available months from farm class
-		ObservableList<String> months = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6", "7", "8", "9",
-				"10", "11", "12");
 		ComboBox<String> month = new ComboBox<String>(months);
-		// TODO get list of available years from farm class
-		ObservableList<String> years = FXCollections.observableArrayList("2015", "2016", "2019", "2020");
 		ComboBox<String> year = new ComboBox<String>(years);
 		hbox2.getChildren().addAll(direction2, month, year);
 
@@ -306,20 +300,13 @@ public class Main extends Application {
 		HBox hbox1 = hboxFormat();
 		Label direction1 = new Label("Farm ID");
 		direction1.setFont(new Font("Arial", 12));
-		// TODO update farm IDs with available selection of ID's
-		ObservableList<String> farmIDs = FXCollections.observableArrayList("Farm 0233", "Farm 0099");
-		ComboBox<String> farmID = new ComboBox<String>(farmIDs);
+		ComboBox<String> farmID = new ComboBox<String>(Farms);
 		hbox1.getChildren().addAll(direction1, farmID);
 
 		HBox hbox2 = hboxFormat();
 		Label direction2 = new Label("Date (Month / Year)");
 		direction2.setFont(new Font("Arial", 12));
-		// TODO get list of available months from farm class
-		ObservableList<String> months = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6", "7", "8", "9",
-				"10", "11", "12");
 		ComboBox<String> month = new ComboBox<String>(months);
-		// TODO get list of available years from farm class
-		ObservableList<String> years = FXCollections.observableArrayList("2015", "2016", "2019", "2020");
 		ComboBox<String> year = new ComboBox<String>(years);
 		hbox2.getChildren().addAll(direction2, month, year);
 
@@ -426,7 +413,7 @@ public class Main extends Application {
 	}
 
 	private VBox bottomStatTitles(String title1, String in1, String in2, ComboBox<String> userInput1,
-			ComboBox<String> userInput2) {
+			ComboBox<String> userInput2, Button eb) {
 		VBox vbox = vboxFormat();
 		Label title = new Label(title1);
 		title.setFont(new Font("Arial", 15));
@@ -444,7 +431,7 @@ public class Main extends Application {
 		input2.setFont(new Font("Arial", 15));
 		hbox2.getChildren().addAll(input2, userInput2);
 
-		vbox.getChildren().addAll(title, hbox1, hbox2);
+		vbox.getChildren().addAll(title, hbox1, hbox2, eb);
 
 		return vbox;
 	}
