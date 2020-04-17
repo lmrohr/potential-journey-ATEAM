@@ -4,140 +4,49 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Filename: FarmADT.java Project: ATEAM Authors: Lauren Rohr, Kiley Smith, Anna
+ * Filename: FarmADT.java Project: 
+ * 
+ * ATEAM Authors: Lauren Rohr, Kiley Smith, Anna
  * Keller, Luke Le Clair
  * 
  */
 public interface CreateReportADT {
-
-
-	/**
-	 * Display the total milk weight and percent of the total of all farm for each
-	 * month. Sort, the list by month number 1-12, show total weight, then that
-	 * farm's percent of the total milk received for each month. Must
-	 * show/hide/compute summary information about milk received and the total share
-	 * of net profit. (This may belong in report class).
-	 * 
-	 * Display a list of totals and percent of total by farm.
-	 * 
-	 * The list must be sorted by Farm ID, or you can prompt for ascending or
-	 * descending by weight.
-	 */
-	public void monthlyFarmReport(int month, int year);
+	// TODO: none of these are void, just wasn't sure the best return type.
+	// TODO: some of our buttons on the GUI are repetitive (could change to align
+	// better with rubric?)
 
 	/**
-	 * Display the total milk weight and percent of the total of all farm for each
-	 * month. Sort, the list by month number 1-12, show total weight, then that
-	 * farm's percent of the total milk received for each month. Must
-	 * show/hide/compute summary information about milk received and the total share
-	 * of net profit. (This may belong in report class)
+	 * Returns percentage share of net sales (percentage milk weight entered in
+	 * given year compared to total milk weight entered that year from all farms.)
 	 */
-	public void yearlyFarmReport(int year);
+	public int netSales(String id, int year);
+
+	/**
+	 * Display a list of totals and percent of total by farm. The list must be
+	 * sorted by Farm ID, or you can prompt for ascending or descending by weight.
+	 */
+	public void monthlyFarmReport(int month, int year); // All Farms by month and Statistics Per All Farms
+
+	/**
+	 * Display list of total weight and percent of total weight of all farms by farm
+	 * for the year. Sort by Farm ID, or you can allow the user to select display
+	 * ascending or descending by weight.
+	 */
+	public void yearlyFarmReport(int year); // All Farms by year
 
 	/**
 	 * Display the total milk weight and percent of the total of all farm for each
 	 * month. Sort, the list by month number 1-12, show total weight, then that
-	 * farm's percent of the total milk received for each month. Must
-	 * show/hide/compute summary information about milk received and the total share
-	 * of net profit. (This may belong in report class)
+	 * farm's percent of the total milk received for each month.
 	 */
-	public void FarmReport();
+	public void FarmReport(String id, int year); // Statistics Per Farm
 
 	/**
-	 * 
-	 * Must show/hide/compute summary information about milk received and the total
-	 * share of net profit.
+	 * Prompt user for start date (year-month-day) and end date (year-month-day),
+	 * Then display the total milk weight per farm and the percentage of the total
+	 * for each farm over that date range. The list must be sorted by Farm ID, or
+	 * you can prompt for ascending or descending order by weight or percentage.
 	 */
-	/**
-	 * Add new vertex to the graph.
-	 *
-	 * If vertex is null or already exists, method ends without adding a vertex or
-	 * throwing an exception.
-	 * 
-	 * Valid argument conditions: 1. vertex is non-null 2. vertex is not already in
-	 * the graph
-	 * 
-	 * @param vertex the vertex to be added
-	 */
-	public void addFarm(String vertex);
-
-	/**
-	 * Remove a vertex and all associated edges from the graph.
-	 * 
-	 * If vertex is null or does not exist, method ends without removing a vertex,
-	 * edges, or throwing an exception.
-	 * 
-	 * Valid argument conditions: 1. vertex is non-null 2. vertex is not already in
-	 * the graph
-	 * 
-	 * @param vertex the vertex to be removed
-	 */
-	public void removeVertex(String vertex);
-
-	/**
-	 * Add the edge from vertex1 to vertex2 to this graph. (edge is directed and
-	 * unweighted)
-	 * 
-	 * If either vertex does not exist, VERTEX IS ADDED and then edge is created. No
-	 * exception is thrown.
-	 *
-	 * If the edge exists in the graph, no edge is added and no exception is thrown.
-	 * 
-	 * Valid argument conditions: 1. neither vertex is null 2. both vertices are in
-	 * the graph 3. the edge is not in the graph
-	 * 
-	 * @param vertex1 the first vertex (src)
-	 * @param vertex2 the second vertex (dst)
-	 */
-	public void addEdge(String vertex1, String vertex2);
-
-	/**
-	 * Remove the edge from vertex1 to vertex2 from this graph. (edge is directed
-	 * and unweighted) If either vertex does not exist, or if an edge from vertex1
-	 * to vertex2 does not exist, no edge is removed and no exception is thrown.
-	 * 
-	 * Valid argument conditions: 1. neither vertex is null 2. both vertices are in
-	 * the graph 3. the edge from vertex1 to vertex2 is in the graph
-	 * 
-	 * @param vertex1 the first vertex
-	 * @param vertex2 the second vertex
-	 */
-	public void removeEdge(String vertex1, String vertex2);
-
-	/**
-	 * Returns a Set that contains all the vertices
-	 * 
-	 * @return a Set<String> which contains all the vertices in the graph
-	 */
-	public Set<String> getAllVertices();
-
-	/**
-	 * Get all the neighbor (adjacent-dependencies) of a vertex
-	 * 
-	 * For the example graph, A->[B, C], D->[A, B] getAdjacentVerticesOf(A) should
-	 * return [B, C].
-	 * 
-	 * In terms of packages, this list contains the immediate dependencies of A and
-	 * depending on your graph structure, this could be either the predecessors or
-	 * successors of A.
-	 * 
-	 * @param vertex the specified vertex
-	 * @return an List<String> of all the adjacent vertices for specified vertex
-	 */
-	public List<String> getAdjacentVerticesOf(String vertex);
-
-	/**
-	 * Returns the number of edges in this graph.
-	 * 
-	 * @return number of edges in the graph.
-	 */
-	public int size();
-
-	/**
-	 * Returns the number of vertices in this graph.
-	 * 
-	 * @return number of vertices in graph.
-	 */
-	public int order();
+	public void Report(int day1, int month1, int year1, int day2, int month2, int year2); // change input?
 
 }
