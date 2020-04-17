@@ -1,15 +1,16 @@
 /**
- * Farm.java created by Keller on Inspiron15 in ATEAM
+ * A-Team 121 Final Project
  * 
- * Author: Anna Keller Email: AKeller5@wisc.edu Date: 4/17/2020
+ * Authors: Lauren Rohr (lmrohr@wisc.edu) Kiley Smith (add email) Luke Le Clair (lleclair@wisc.edu)
+ * Anna Keller (add email)
  * 
- * Course: CS400 Course: Spring 2020 Lecture: 001
+ * Date: 4/17/2020
  * 
- * IDE: Eclipse IDE for Java Developers Version: 2019-12 (4.14.0) Build id: 20191212-1212
+ * Course: CS 400 Semester: Spring 2020
  * 
- * Device: Inspiron15 (3000 Series) OS: Windows 10 Home
+ * IDE: Eclipse IDE for Java Developers Version: Build id:
  * 
- * Collaborators: N/A
+ * List Collaborators: N/A
  * 
  * Other Credits: N/A
  * 
@@ -27,8 +28,10 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 
 /**
- * @author keller
- *
+ * Farm - TODO Describe purpose of this user defined type Farm creates a farm with an ID and a list
+ * of milk weights for different months and years.
+ * 
+ * @author Lauren Rohr, Kiley Smith, Anna Keller, Luke Le Clair
  */
 public class Farm implements FarmADT {
   private String FarmID;
@@ -119,15 +122,47 @@ public class Farm implements FarmADT {
     alert.showAndWait().filter(r -> r == ButtonType.OK);
   }
 
+  /**
+   * Display the total milk weight for given month. Check date is valid and data exists.
+   */
   @Override
   public void monthlyTotal(int month, int year) {
-    // TODO Auto-generated method stub
+    // Loop through each entry until a matching month/year is found
+    for (MilkWeightByDay day : milkWeights) {
+      if (day.getMonth() == month && day.getYear() == year) {
+
+        // Pop-up message if the date was not found
+        Alert displayTotal = new Alert(AlertType.WARNING,
+            "Weight for " + month + "/" + year + " is: " + day.getMilkWeight());
+        displayTotal.showAndWait().filter(r -> r == ButtonType.OK);
+        return;
+      }
+    }
+
+    // Pop-up message if the date was not found
+    Alert alert = new Alert(AlertType.WARNING, "Date does not exist. Please try again.");
+    alert.showAndWait().filter(r -> r == ButtonType.OK);
 
   }
 
+  /**
+   * Display the total milk weight for given year. Check date is valid and data exists (should be
+   * true because of use of ComboBoxes).
+   */
   @Override
   public void yearlyTotal(int year) {
-    // TODO Auto-generated method stub
+    long total = 0; // Yearly total
 
+    // Loop through each entry until a matching month/year is found
+    for (MilkWeightByDay day : milkWeights) {
+      if (day.getYear() == year) {
+        // Add the monthly weight to the total
+        total += day.getMilkWeight();
+      }
+    }
+
+    // Pop-up message to display the weights
+    Alert alert = new Alert(AlertType.WARNING, "Yearly total for " + year + " was: " + total);
+    alert.showAndWait().filter(r -> r == ButtonType.OK);
   }
 }
