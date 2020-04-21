@@ -14,14 +14,20 @@
  * 
  * List Collaborators: N/A
  * 
- * Other Credits: N/A
+ * Other Credits: http://www.java2s.com/Code/Java/JavaFX/AddnewrowtoTableView.htm (how to use table
+ *      view to add rows)
  * 
  * Known Bugs: N/A
  */
 package application;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import application.Main.Result;
 import javafx.application.Application;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -35,6 +41,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -61,7 +68,28 @@ public class Main extends Application {
 	private ObservableList<String> years = FXCollections.observableArrayList("2000", "2005", "2010", "2015", "2020");
 	private static final ObservableList<String> months = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6",
 			"7", "8", "9", "10", "11", "12");
-
+	private ObservableList<Result> data = FXCollections.observableArrayList(
+	    new Result("Report Type", "Year"),
+	    new Result("Date", "2018"),
+	    new Result("Farm ID(s)", "F005"),
+	    new Result("Milk Amount", "23400")
+	    );
+	
+	public class Result {
+	  private SimpleStringProperty Label;
+	  private SimpleStringProperty Result;
+	  
+	  public Result(String l, String r) {
+	    this.Label = new SimpleStringProperty(l);
+	    this.Result = new SimpleStringProperty(r);
+	  }
+	  public String getL() {
+	    return Label.get();
+	  }
+	  public String getR() {
+	    return Result.get();
+	  }
+	}
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// Main layout is Border Pane example (top,left,center,right,bottom)
@@ -82,10 +110,30 @@ public class Main extends Application {
 		editDataField.setMinWidth(dataInputOptions.getPrefWidth());
 		Button removeData = buttonFormat("Remove Data Field", 1);
 		removeData.setMinWidth(dataInputOptions.getPrefWidth());
+		
+		TableView<Result> results = new TableView<>();
+		results.setEditable(true);
+		
+        TableColumn label = new TableColumn();
+        label.setCellValueFactory(new PropertyValueFactory<>("Label"));
+        
+        
+        TableColumn output = new TableColumn("Result");
+        output.setCellValueFactory(new PropertyValueFactory<>("Result"));
+        
+        label.setMinWidth(100);
+        output.setMinWidth(100);
+        //output.prefWidthProperty().bind(results.widthProperty().multiply(0.5));
+        //output.prefWidthProperty().bind(results.widthProperty().multiply(0.5));
+        
+        results.setItems(data);
+        results.getColumns().addAll(label, output);
+        //results.setItems(getResultsData);
+        //results.getItems().add("hello")
+        root.setLeft(dataInputOptions);
 		// Add buttons
-		dataInputOptions.getChildren().addAll(newDataFile, addDataPoint, editDataField, removeData);
+		dataInputOptions.getChildren().addAll(newDataFile, addDataPoint, editDataField, removeData, results);
 		// Add to main scene
-		root.setLeft(dataInputOptions);
 
 		/*
 		 * Handle button presses
@@ -120,7 +168,11 @@ public class Main extends Application {
 		TableColumn<String, Object> column2 = new TableColumn<>("Farm ID");
 		TableColumn<String, Object> column3 = new TableColumn<>("Milk Amount (lbs)");
 		TableColumn<String, Object> column4 = new TableColumn<>("Percent Share");
-		table.getColumns().addAll(column1, column2, column3, column4);
+		column1.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
+		column2.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
+		column3.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
+		column4.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
+		table.getColumns().addAll(column1, column2, column3, column4);	
 
 		VBox allFarms = vboxFormat();
 		allFarms.getChildren().addAll(timeSelect, table);
@@ -320,7 +372,9 @@ public class Main extends Application {
 		vbox.getChildren().addAll(title1, hbox1, hbox2, done);
 		showDialogWindow(primaryStage, vbox, title, done);
 	}
-
+	public void Label(){
+	    
+	}
 	/**
 	 * Show when event occurs
 	 * 
@@ -435,7 +489,6 @@ public class Main extends Application {
 
 		return vbox;
 	}
-
 	/**
 	 * @param args
 	 */
