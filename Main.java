@@ -14,8 +14,9 @@
  * 
  * List Collaborators: N/A
  * 
- * Other Credits: http://www.java2s.com/Code/Java/JavaFX/AddnewrowtoTableView.htm (how to use table
+ * Other Credits: https://docs.oracle.com/javafx/2/ui_controls/table-view.htm (how to use table
  *      view to add rows)
+ *      TA office hours
  * 
  * Known Bugs: N/A
  */
@@ -28,6 +29,7 @@ import java.util.List;
 import application.Main.Result;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -68,26 +70,71 @@ public class Main extends Application {
 	private ObservableList<String> years = FXCollections.observableArrayList("2000", "2005", "2010", "2015", "2020");
 	private static final ObservableList<String> months = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6",
 			"7", "8", "9", "10", "11", "12");
-	private ObservableList<Result> data = FXCollections.observableArrayList(
+	//Sample Output Data
+	final ObservableList<Result> data = FXCollections.observableArrayList(
 	    new Result("Report Type", "Year"),
 	    new Result("Date", "2018"),
 	    new Result("Farm ID(s)", "F005"),
 	    new Result("Milk Amount", "23400")
 	    );
-	
-	public class Result {
-	  private SimpleStringProperty Label;
-	  private SimpleStringProperty Result;
+	//Sample data for the farm chart
+	final ObservableList<Data> data2 = FXCollections.observableArrayList(
+	    new Data("06/08/2010", "F001", "25.00", "24"),
+	    new Data("09/24/2012", "F002", "32.00", "8"),
+	    new Data("07/12/2014", "F005", "22.76", "19")
+	    );
+	/**
+	 * Data type that stores the resulting processed data to be
+	 * displayed
+	 */
+	public static class Result {
+	  private final SimpleStringProperty label;
+	  private final SimpleStringProperty result;
 	  
-	  public Result(String l, String r) {
-	    this.Label = new SimpleStringProperty(l);
-	    this.Result = new SimpleStringProperty(r);
+	  private Result(String lbl, String rslt) {
+	    this.label = new SimpleStringProperty(lbl);
+	    this.result = new SimpleStringProperty(rslt);
 	  }
-	  public String getL() {
-	    return Label.get();
+	  public String getLabel() {
+	    return label.get();
 	  }
-	  public String getR() {
-	    return Result.get();
+	  public void setLabel(String lbl) {
+	    label.set(lbl);
+	  }
+	  public String getResult() {
+	    return result.get();
+	  }
+	  public void setResult(String rslt) {
+	    result.set(rslt);
+	  }
+	}
+	/**
+	 * Turns the data into a format that can be displayed in the table
+	 * 
+	 */
+	public static class Data {
+	  private final SimpleStringProperty date;
+	  private final SimpleStringProperty farmID;
+	  private final SimpleStringProperty milk;
+	  private final SimpleStringProperty percent;
+	  
+	  private Data(String date, String farm, String milk, String percent) {
+	    this.date = new SimpleStringProperty(date);
+	    this.farmID = new SimpleStringProperty(farm);
+	    this.milk = new SimpleStringProperty(milk);
+	    this.percent = new SimpleStringProperty(percent);
+	  }
+	  public String getDate() {
+	    return date.get();
+	  }
+	  public String getFarmID() {
+	    return farmID.get();
+	  }
+	  public String getMilk() {
+	    return milk.get();
+	  }
+	  public String getPercent() {
+	    return percent.get();
 	  }
 	}
 	@Override
@@ -110,26 +157,18 @@ public class Main extends Application {
 		editDataField.setMinWidth(dataInputOptions.getPrefWidth());
 		Button removeData = buttonFormat("Remove Data Field", 1);
 		removeData.setMinWidth(dataInputOptions.getPrefWidth());
-		
+		//New table to store the results of the report
 		TableView<Result> results = new TableView<>();
-		results.setEditable(true);
-		
-        TableColumn label = new TableColumn();
-        label.setCellValueFactory(new PropertyValueFactory<>("Label"));
-        
-        
-        TableColumn output = new TableColumn("Result");
-        output.setCellValueFactory(new PropertyValueFactory<>("Result"));
+        TableColumn<Result, String> label = new TableColumn("Label");
+        TableColumn<Result, String> output = new TableColumn("Result");
         
         label.setMinWidth(100);
         output.setMinWidth(100);
-        //output.prefWidthProperty().bind(results.widthProperty().multiply(0.5));
-        //output.prefWidthProperty().bind(results.widthProperty().multiply(0.5));
-        
+        // sets each type of the different columns
+        label.setCellValueFactory(new PropertyValueFactory<Result,String>("label"));
+        output.setCellValueFactory(new PropertyValueFactory<Result, String>("result"));
         results.setItems(data);
         results.getColumns().addAll(label, output);
-        //results.setItems(getResultsData);
-        //results.getItems().add("hello")
         root.setLeft(dataInputOptions);
 		// Add buttons
 		dataInputOptions.getChildren().addAll(newDataFile, addDataPoint, editDataField, removeData, results);
@@ -163,15 +202,20 @@ public class Main extends Application {
 		timeSelect.setPrefWidth(150); // Preferred with of each element in the hbox
 		timeSelect.getChildren().addAll(allFarmLabel, byYear, byMonth);
 		// TODO create display tables
-		TableView<String> table = new TableView<String>();
-		TableColumn<String, Object> column1 = new TableColumn<>("Date");
-		TableColumn<String, Object> column2 = new TableColumn<>("Farm ID");
-		TableColumn<String, Object> column3 = new TableColumn<>("Milk Amount (lbs)");
-		TableColumn<String, Object> column4 = new TableColumn<>("Percent Share");
+		TableView<Data> table = new TableView<Data>();
+		TableColumn<Data, String> column1 = new TableColumn<>("Date");
+		TableColumn<Data, String> column2 = new TableColumn<>("Farm ID");
+		TableColumn<Data, String> column3 = new TableColumn<>("Milk Amount (lbs)");
+		TableColumn<Data, String> column4 = new TableColumn<>("Percent Share");
 		column1.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
 		column2.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
 		column3.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
 		column4.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
+		column1.setCellValueFactory(new PropertyValueFactory<Data, String>("date"));
+		column2.setCellValueFactory(new PropertyValueFactory<Data, String>("farmID"));
+		column3.setCellValueFactory(new PropertyValueFactory<Data, String>("milk"));
+		column4.setCellValueFactory(new PropertyValueFactory<Data, String>("percent"));
+		table.setItems(data2);
 		table.getColumns().addAll(column1, column2, column3, column4);	
 
 		VBox allFarms = vboxFormat();
@@ -428,7 +472,7 @@ public class Main extends Application {
 	 */
 	private VBox vboxFormat() {
 		VBox vbox = new VBox();
-		vbox.setAlignment(Pos.BASELINE_CENTER);
+		//vbox.setAlignment(Pos.BASELINE_CENTER);
 		vbox.setSpacing(10);
 		vbox.setPadding(new Insets(20, 20, 20, 20));
 		return vbox;
