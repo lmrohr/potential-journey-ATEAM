@@ -141,12 +141,12 @@ public class Farm implements FarmADT {
    * @param year  - year to get statistics from
    */
   @Override
-  public void monthlyTotal(int month, int year) {
+  public long monthlyTotal(int month, int year) {
     // Displays an error message if an invalid date is entered.
     if (month < 1 || month > 12 || year < 0) {
       Alert alert = new Alert(AlertType.WARNING, "Invalid date. Please try again.");
       alert.showAndWait().filter(r -> r == ButtonType.OK);
-      return;
+      return 0;
     }
 
     long total = 0;
@@ -154,20 +154,12 @@ public class Farm implements FarmADT {
     // Loop through each entry until a matching month/year is found
     for (MilkWeightByDay date : milkWeights) {
       if (date.getMonth() == month && date.getYear() == year) {
-        total += date.getMilkWeight(); // Add the milk weight if the date is within the month
+        // Add the milk weight if the date is within the month and year
+        total += date.getMilkWeight();
       }
     }
 
-    if (total == 0) {
-      // Pop-up message if no data was found
-      Alert alert = new Alert(AlertType.WARNING, "Unable to find data. Please try again.");
-      alert.showAndWait().filter(r -> r == ButtonType.OK);
-    }
-
-    // Pop-up message if the date was not found
-    Alert displayTotal =
-        new Alert(AlertType.WARNING, "Weight for " + month + "/" + year + " is: " + total);
-    displayTotal.showAndWait().filter(r -> r == ButtonType.OK);
+    return total;
   }
 
   /**
@@ -177,12 +169,12 @@ public class Farm implements FarmADT {
    * @param year - year to get statistics from
    */
   @Override
-  public void yearlyTotal(int year) {
+  public long yearlyTotal(int year) {
     // Displays an error message if an invalid date is entered.
     if (year < 0) {
       Alert alert = new Alert(AlertType.WARNING, "Invalid date. Please try again.");
       alert.showAndWait().filter(r -> r == ButtonType.OK);
-      return;
+      return 0;
     }
 
     long total = 0; // Yearly total
@@ -190,14 +182,12 @@ public class Farm implements FarmADT {
     // Loop through each entry until a matching month/year is found
     for (MilkWeightByDay date : milkWeights) {
       if (date.getYear() == year) {
-        // Add the monthly weight to the total
+        // Add the weight to the total
         total += date.getMilkWeight();
       }
     }
 
-    // Pop-up message to display the weights
-    Alert alert = new Alert(AlertType.WARNING, "Yearly total for " + year + " was: " + total);
-    alert.showAndWait().filter(r -> r == ButtonType.OK);
+    return total;
   }
 
   /**

@@ -52,15 +52,15 @@ public interface FarmADT {
   public void removeMilkWeight(int day, int month, int year, long weight);
 
   /**
-   * Display the total milk weight for given month. Check date is valid and data exists (should be
+   * Return the total milk weight for given month. Check date is valid and data exists (should be
    * true because of use of ComboBoxes).
    */
-  public void monthlyTotal(int month, int year);
+  public long monthlyTotal(int month, int year);
 
   /**
-   * Display the total milk weight for given year. Check date is valid and data exists (should be
+   * Return the total milk weight for given year. Check date is valid and data exists (should be
    * true because of use of ComboBoxes).
    */
-  public void yearlyTotal(int year);
+  public long yearlyTotal(int year);
 
 }
