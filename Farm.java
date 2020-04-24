@@ -19,7 +19,6 @@
 
 package application;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -60,6 +59,7 @@ public class Farm implements FarmADT {
    * Allow user to add a valid milk weight to Farm file. The input should remain associated with
    * date of entry. If weight is not valid do not add and throw pop-up error message.
    * 
+   * @param day    - day that milk was added
    * @param month  - month that milk was added
    * @param year   - year that milk was added
    * @param weight - weight of milk that was added
@@ -81,6 +81,11 @@ public class Farm implements FarmADT {
    * Allow user to replace milk weight for a given date. This new weight must be valid, if not throw
    * pop-up() and do not change data. If the date does not exist, throw appropriate pop-up message
    * and do not change data.
+   * 
+   * @param day    - day that milk was added
+   * @param month  - month that milk was added
+   * @param year   - year that milk was added
+   * @param weight - weight of milk that was added
    */
   @Override
   public void editMilkWeight(int day, int month, int year, long weight) {
@@ -108,6 +113,11 @@ public class Farm implements FarmADT {
    * Allow user to delete milk weight for a given date. If this is the only entry for this date
    * remove date and milk weight. If the date does not exist, throw appropriate pop-up message and
    * do not change data.
+   * 
+   * @param day    - day that milk was added
+   * @param month  - month that milk was added
+   * @param year   - year that milk was added
+   * @param weight - weight of milk that was added
    */
   @Override
   public void removeMilkWeight(int day, int month, int year, long weight) {
@@ -126,6 +136,9 @@ public class Farm implements FarmADT {
 
   /**
    * Display the total milk weight for given month. Check date is valid and data exists.
+   * 
+   * @param month - month to get statistics from
+   * @param year  - year to get statistics from
    */
   @Override
   public void monthlyTotal(int month, int year) {
@@ -160,6 +173,8 @@ public class Farm implements FarmADT {
   /**
    * Display the total milk weight for given year. Check date is valid and data exists (should be
    * true because of use of ComboBoxes).
+   * 
+   * @param year - year to get statistics from
    */
   @Override
   public void yearlyTotal(int year) {
@@ -183,5 +198,14 @@ public class Farm implements FarmADT {
     // Pop-up message to display the weights
     Alert alert = new Alert(AlertType.WARNING, "Yearly total for " + year + " was: " + total);
     alert.showAndWait().filter(r -> r == ButtonType.OK);
+  }
+
+  /**
+   * Returns the FarmID.
+   * 
+   * @return - FarmID
+   */
+  public String getFarmID() {
+    return FarmID;
   }
 }
