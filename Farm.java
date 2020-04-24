@@ -64,7 +64,7 @@ public class Farm implements FarmADT {
    * @param weight - weight of milk that was added
    */
   @Override
-  public void addMilkWeight(int month, int year, long weight) {
+  public void addMilkWeight(int day, int month, int year, long weight) {
     // Pop-up message if the weight is incorrect
     if (weight < 0) {
       Alert alert = new Alert(AlertType.WARNING, "Weight cannot be negative");
@@ -73,7 +73,7 @@ public class Farm implements FarmADT {
     }
 
     // Add a new entry
-    milkWeights.add(new MilkWeightByDay(month, year, weight));
+    milkWeights.add(new MilkWeightByDay(day, month, year, weight));
   }
 
   /**
@@ -82,7 +82,7 @@ public class Farm implements FarmADT {
    * and do not change data.
    */
   @Override
-  public void editMilkWeight(int month, int year, long weight) {
+  public void editMilkWeight(int day, int month, int year, long weight) {
     // Pop-up message if the weight is incorrect
     if (weight < 0) {
       Alert alert = new Alert(AlertType.WARNING, "Weight cannot be negative");
@@ -91,9 +91,9 @@ public class Farm implements FarmADT {
     }
 
     // Loop through each entry until a matching day/year is found
-    for (MilkWeightByDay day : milkWeights) {
-      if (day.getMonth() == month && day.getYear() == year) {
-        day.setMilkWeight(weight);
+    for (MilkWeightByDay date : milkWeights) {
+      if (date.getDay() == day && date.getMonth() == month && date.getYear() == year) {
+        date.setMilkWeight(weight);
         return;
       }
     }
@@ -109,11 +109,11 @@ public class Farm implements FarmADT {
    * do not change data.
    */
   @Override
-  public void removeMilkWeight(int month, int year, long weight) {
+  public void removeMilkWeight(int day, int month, int year, long weight) {
     // Loop through each entry until a matching month/year is found
-    for (MilkWeightByDay day : milkWeights) {
-      if (day.getMonth() == month && day.getYear() == year) {
-        milkWeights.remove(day);
+    for (MilkWeightByDay date : milkWeights) {
+      if (date.getDay() == day && date.getMonth() == month && date.getYear() == year) {
+        milkWeights.remove(date);
         return;
       }
     }
@@ -128,22 +128,32 @@ public class Farm implements FarmADT {
    */
   @Override
   public void monthlyTotal(int month, int year) {
-    // Loop through each entry until a matching month/year is found
-    for (MilkWeightByDay day : milkWeights) {
-      if (day.getMonth() == month && day.getYear() == year) {
+    // Displays an error message if an invalid date is entered.
+    if (month < 1 || month > 12 || year < 0) {
+      Alert alert = new Alert(AlertType.WARNING, "Invalid date. Please try again.");
+      alert.showAndWait().filter(r -> r == ButtonType.OK);
+      return;
+    }
 
-        // Pop-up message if the date was not found
-        Alert displayTotal = new Alert(AlertType.WARNING,
-            "Weight for " + month + "/" + year + " is: " + day.getMilkWeight());
-        displayTotal.showAndWait().filter(r -> r == ButtonType.OK);
-        return;
+    long total = 0;
+
+    // Loop through each entry until a matching month/year is found
+    for (MilkWeightByDay date : milkWeights) {
+      if (date.getMonth() == month && date.getYear() == year) {
+        total += date.getMilkWeight(); // Add the milk weight if the date is within the month
       }
     }
 
-    // Pop-up message if the date was not found
-    Alert alert = new Alert(AlertType.WARNING, "Date does not exist. Please try again.");
-    alert.showAndWait().filter(r -> r == ButtonType.OK);
+    if (total == 0) {
+      // Pop-up message if no data was found
+      Alert alert = new Alert(AlertType.WARNING, "Unable to find data. Please try again.");
+      alert.showAndWait().filter(r -> r == ButtonType.OK);
+    }
 
+    // Pop-up message if the date was not found
+    Alert displayTotal =
+        new Alert(AlertType.WARNING, "Weight for " + month + "/" + year + " is: " + total);
+    displayTotal.showAndWait().filter(r -> r == ButtonType.OK);
   }
 
   /**
@@ -152,13 +162,20 @@ public class Farm implements FarmADT {
    */
   @Override
   public void yearlyTotal(int year) {
+    // Displays an error message if an invalid date is entered.
+    if (year < 0) {
+      Alert alert = new Alert(AlertType.WARNING, "Invalid date. Please try again.");
+      alert.showAndWait().filter(r -> r == ButtonType.OK);
+      return;
+    }
+
     long total = 0; // Yearly total
 
     // Loop through each entry until a matching month/year is found
-    for (MilkWeightByDay day : milkWeights) {
-      if (day.getYear() == year) {
+    for (MilkWeightByDay date : milkWeights) {
+      if (date.getYear() == year) {
         // Add the monthly weight to the total
-        total += day.getMilkWeight();
+        total += date.getMilkWeight();
       }
     }
 

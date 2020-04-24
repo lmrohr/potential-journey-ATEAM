@@ -27,6 +27,7 @@ package application;
  * @author Lauren Rohr, Kiley Smith, Anna Keller, Luke Le Clair
  */
 public class MilkWeightByDay {
+  private int day;
   private int month;
   private int year;
   private long milkWeight;
@@ -39,10 +40,20 @@ public class MilkWeightByDay {
    * @param year   - year that the milk was from
    * @param weight - weight of the milk
    */
-  MilkWeightByDay(int month, int year, long weight) {
+  MilkWeightByDay(int day, int month, int year, long weight) {
+    this.day = day;
     this.month = month;
     this.year = year;
     this.setMilkWeight(weight);
+  }
+
+  /**
+   * Returns the day
+   * 
+   * @return - day that milk was weighed
+   */
+  public int getDay() {
+    return day;
   }
 
   /**
