@@ -20,6 +20,7 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javafx.collections.FXCollections;
@@ -36,7 +37,7 @@ import javafx.scene.control.ButtonType;
  */
 public class Farm implements FarmADT {
   private String FarmID;
-  private ArrayList<MilkWeightByDay> milkWeights;
+  private HashSet<MilkWeightByDay> milkWeights;
 
   /**
    * Accept any string as a farm id. Allow the user to enter the farm ID, and save and store as all
@@ -52,7 +53,7 @@ public class Farm implements FarmADT {
       FarmID = ID.toUpperCase();
     }
 
-    milkWeights = new ArrayList<MilkWeightByDay>();
+    milkWeights = new HashSet<MilkWeightByDay>();
   }
 
   /**
