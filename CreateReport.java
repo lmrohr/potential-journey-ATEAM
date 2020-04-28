@@ -19,6 +19,7 @@
 
 package application;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -73,8 +74,19 @@ public class CreateReport implements CreateReportADT {
    */
   @Override
   public void monthlyFarmReport(int month, int year) {
-    // TODO Auto-generated method stub
+    ArrayList<String> farmID = new ArrayList<String>();
+    ArrayList<Long> milkWeights = new ArrayList<Long>();
+    long totalWeight = 0;
 
+    // Iterate through all of the farms
+    for (Farm farm : farmSet) {
+      farmID.add(farm.getFarmID()); // Add the ID
+      milkWeights.add(farm.monthlyTotal(month, year)); // Add the milkWeight
+      totalWeight += farm.monthlyTotal(month, year); // Update the total weight
+    }
+
+    // TODO: display results.
+    // Not sure if we want these in a pop-up window or on the main screen?
   }
 
   /**
@@ -83,8 +95,19 @@ public class CreateReport implements CreateReportADT {
    */
   @Override
   public void yearlyFarmReport(int year) {
-    // TODO Auto-generated method stub
+    ArrayList<String> farmID = new ArrayList<String>();
+    ArrayList<Long> milkWeights = new ArrayList<Long>();
+    long totalWeight = 0;
 
+    // Iterate through all of the farms
+    for (Farm farm : farmSet) {
+      farmID.add(farm.getFarmID()); // Add the ID
+      milkWeights.add(farm.yearlyTotal(year)); // Add the milkWeight
+      totalWeight += farm.yearlyTotal(year); // Update the total weight
+    }
+
+    // TODO: display results.
+    // Not sure if we want these in a pop-up window or on the main screen?
   }
 
   /**
