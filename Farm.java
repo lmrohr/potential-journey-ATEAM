@@ -73,7 +73,16 @@ public class Farm implements FarmADT {
       return;
     }
 
-    // Add a new entry
+    // If milkWeight is already in the list, then edit the existing entry
+    for (MilkWeightByDay milkWeight : milkWeights) {
+      if (milkWeight.getDay() == day && milkWeight.getMonth() == month
+          && milkWeight.getYear() == year) {
+        milkWeight.setMilkWeight(weight);
+        return;
+      }
+    }
+
+    // If not already in list, add a new entry
     milkWeights.add(new MilkWeightByDay(day, month, year, weight));
   }
 

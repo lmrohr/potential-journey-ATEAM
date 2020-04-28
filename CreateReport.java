@@ -47,6 +47,32 @@ public class CreateReport implements CreateReportADT {
   }
 
   /**
+   * Adds a milkWeightDay for a given Farm ID. If the farm has not already been added, then it adds
+   * the farm to the set of Farm objects.
+   * 
+   * @param ID     - ID of the Farm to add to
+   * @param month  - Month of the milk weight to add
+   * @param year   - Year of the milk weight to add
+   * @param weight - Weight of the milk to add
+   */
+  public void addData(String ID, int day, int month, int year, long weight) {
+    // Loop through each farm looking for a match
+    for (Farm farm : farmSet) {
+      if (ID.equals(farm.getFarmID())) {
+        // If there is a match, add the new entry
+        farm.addMilkWeight(day, month, year, weight);
+        return;
+      }
+    }
+
+    // If the farm is not in the set, add it and add the first milkweight
+    Farm toAdd = new Farm(ID);
+    toAdd.addMilkWeight(day, month, year, weight);
+    farmSet.add(toAdd);
+
+  }
+
+  /**
    * Returns percentage share of net sales (percentage milk weight entered in given year compared to
    * total milk weight entered that year from all farms.)
    */
