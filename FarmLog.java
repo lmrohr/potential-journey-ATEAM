@@ -36,8 +36,34 @@ import javafx.collections.ObservableList;
  *
  */
 public class FarmLog {
-	private ArrayList<String> IDlog;
-	private ArrayList<Farm> farmLog;
+	private ArrayList<String> IDlog; // contains Strings of all Farm ID, also denotes index of corresponding Farm
+										// objects in farmLog
+	private ArrayList<Farm> farmLog; // contains Farm objects for all farms added
+
+	/**
+	 * get the list of years in which data is present for a given farm
+	 * 
+	 * @param id identifier for a particular farm
+	 * @return ObservableList of years
+	 */
+	public ObservableList<String> getYearsofFarm(String id) {
+		int index = IDlog.indexOf(id);
+		return farmLog.get(index).getYears();
+
+	}
+
+	/**
+	 * Get list of existing farms to edit
+	 * 
+	 * @return ObservableList of farms
+	 */
+	public ObservableList<String> getFarms() {
+		if (IDlog.isEmpty()) {
+			return FXCollections.observableArrayList("None");
+		}
+		return FXCollections.observableArrayList(IDlog);
+
+	}
 
 	/**
 	 * Add a farm ID to existing farms
@@ -68,10 +94,10 @@ public class FarmLog {
 	 * @param weight - weight of the milk
 	 */
 	public void editFarmEntry(String id, int day, int month, int year, long weight) {
-		if (id != null && !IDlog.contains(id)) {
+		if (id != null && IDlog.contains(id)) {
 			int index = IDlog.indexOf(id);
 			Farm toEdit = farmLog.get(index);
-			// calls editMilkWeight
+			// calls editMilkWeight on farm entry
 			toEdit.editMilkWeight(day, month, year, weight);
 		}
 	}
@@ -89,31 +115,27 @@ public class FarmLog {
 		if (id != null && IDlog.contains(id)) {
 			int index = IDlog.indexOf(id);
 			Farm toEdit = farmLog.get(index);
-			// Calls addMilkWeight
+			// Calls addMilkWeight on farm
 			toEdit.addMilkWeight(day, month, year, weight);
 		}
 	}
 
 	/**
-	 * get the list of years in which data is present for a given farm
+	 * Remove existing data point for a given farm
 	 * 
-	 * @param id identifier for a particular farm
-	 * @return ObservableList of years
+	 * @param id     - farm ID (any string)
+	 * @param day    - day that the milk was from
+	 * @param month  - month that the milk was from
+	 * @param year   - year that the milk was from
+	 * @param weight - weight of the milk
 	 */
-	public ObservableList<String> getYearsforFarm(String id) {
-		int index = IDlog.indexOf(id);
-		return farmLog.get(index).getYears();
-
-	}
-
-	/**
-	 * Get list of existing farms to edit
-	 * 
-	 * @return ObservableList of farms
-	 */
-	public ObservableList<String> getFarms() {
-		return FXCollections.observableArrayList(IDlog);
-
+	public void removeFarmEntry(String id, int day, int month, int year, long weight) {
+		if (id != null && IDlog.contains(id)) {
+			int index = IDlog.indexOf(id);
+			Farm toEdit = farmLog.get(index);
+			// calls removeMilkWeight on farm entry
+			toEdit.removeMilkWeight(day, month, year, weight);
+		}
 	}
 
 	/**

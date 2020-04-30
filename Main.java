@@ -34,6 +34,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -61,7 +64,7 @@ import javafx.stage.Stage;
  * @author Lauren Rohr, Kiley Smith, Anna Keller, Luke Le Clair
  *
  */
-public class Main extends Application {
+public class Main extends Application implements EventHandler<ActionEvent> {
 
 	private static final int WINDOW_WIDTH = 900;
 	private static final int WINDOW_HEIGHT = 700;
@@ -383,7 +386,8 @@ public class Main extends Application {
 		Label direction1 = new Label("Farm ID");
 		direction1.setFont(new Font("Arial", 12));
 		ComboBox<String> farmID = new ComboBox<String>(Farms);
-		hbox1.getChildren().addAll(direction1, farmID);
+		Button next = buttonFormat("Next", 3);
+		hbox1.getChildren().addAll(direction1, farmID, next);
 
 		HBox hbox2 = hboxFormat();
 		Label direction2 = new Label("Date (Month / Day / Year)");
@@ -571,5 +575,10 @@ public class Main extends Application {
 	 */
 	public static void main(String[] args) {
 		launch(args);
+	}
+
+	@Override
+	public void handle(ActionEvent event) {
+		
 	}
 }
