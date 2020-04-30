@@ -131,7 +131,19 @@ public class CreateReport implements CreateReportADT {
 		FileWriter f = null;
 
 		if (display) {
-			// TODO: display results.
+			GridPane form = new GridPane();
+			Scene window = new Scene(form, 600, 200);
+			final Stage dialog = new Stage();
+			dialog.initModality(Modality.APPLICATION_MODAL);
+			dialog.setScene(window);
+			dialog.show();
+			form.addRow(0, new Label(" Year: "), new Label(String.valueOf(year)), new Label(", Month: "),
+					new Label(String.valueOf(month)));
+			form.addRow(1, new Label(" Farm ID    "), new Label(" Farm Total    "), new Label(" Percent Total    "));
+			for (int i = 1; i <= 12; i++) {
+				form.addRow((i + 1), new Label(farmID.get(i)), new Label(Long.toString(milkWeights.get(i))),
+						new Label(Long.toString((100 * milkWeights.get(i) / totalWeight))));
+			}
 		} else {
 			try {
 				f = new FileWriter("report.txt");
