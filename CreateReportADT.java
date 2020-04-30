@@ -50,8 +50,8 @@ public interface CreateReportADT {
    * Display a list of totals and percent of total by farm. The list must be sorted by Farm ID, or
    * you can prompt for ascending or descending by weight.
    */
-  public void monthlyFarmReport(int month, int year); // All Farms by month and Statistics Per All
-                                                      // Farms
+  public void monthlyFarmReport(int month, int year, boolean display); // All Farms by month and
+                                                                       // Statistics Per All Farms
 
   /**
    * Display list of total weight and percent of total weight of all farms by farm for the year.
