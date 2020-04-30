@@ -116,7 +116,7 @@ public class CreateReport implements CreateReportADT {
 	 * sorted by Farm ID, or you can prompt for ascending or descending by weight.
 	 */
 	@Override
-	public void monthlyFarmReport(int month, int year) {
+	public void monthlyFarmReport(int month, int year, boolean display) {
 		ArrayList<String> farmID = new ArrayList<String>();
 		ArrayList<Long> milkWeights = new ArrayList<Long>();
 		long totalWeight = 0;
@@ -128,6 +128,32 @@ public class CreateReport implements CreateReportADT {
 			totalWeight += farm.monthlyTotal(month, year); // Update the total weight
 		}
 
+		FileWriter f = null;
+
+		if (display) {
+			// TODO: display results.
+		} else {
+			try {
+				f = new FileWriter("report.txt");
+				f.write("Year: " + year + "\t\tMonth: " + month + "\n");
+				f.write("Farm ID\t\t\tFarm Total\t\tPercent of Total\n");
+				for (int i = 0; i < farmID.size(); i++) {
+					f.write(farmID.get(i) + "\t\t\t" + milkWeights.get(i) + "\t\t\t"
+							+ (100 * milkWeights.get(i) / totalWeight));
+				}
+			} catch (IOException e) {
+				Alert alert = new Alert(AlertType.WARNING, "Unable to save data");
+				alert.showAndWait().filter(r -> r == ButtonType.OK);
+			} finally {
+				if (f != null)
+					try {
+						f.close();
+					} catch (IOException e) {
+						Alert alert = new Alert(AlertType.WARNING, "Unable to save data");
+						alert.showAndWait().filter(r -> r == ButtonType.OK);
+					}
+			}
+		}
 		// TODO: display results.
 		// Not sure if we want these in a pop-up window or on the main screen?
 	}
@@ -261,5 +287,4 @@ public class CreateReport implements CreateReportADT {
 		// TODO Auto-generated method stub
 
 	}
-
 }

@@ -40,7 +40,10 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -268,13 +271,28 @@ public class Main extends Application {
 
     // Monthly Report
     ComboBox<String> s2Month = new ComboBox<String>(months);
-    ComboBox<String> s2Year = new ComboBox<String>(years);
+    TextField s2Year = new TextField();
+    CheckBox s2DisplayOrSave = new CheckBox("Check to display, uncheck to save");
     Button eb2 = new Button("Enter");
     // TextField s2Month = new TextField();
     // TextField s2Year = new TextField();
-    VBox statAllFarm =
-        bottomStatTitles("Monthly Report", "Month: ", "Year: ", s2Month, s2Year, eb2);
+    VBox statAllFarm = bottomStatTitles("Monthly Report", "Month: ", "Year: ", s2Month, s2Year,
+        s2DisplayOrSave, eb2);
     // TODO add tables to vbox
+
+    // Allows the user to save or display the monthly report
+    eb2.setOnAction(e -> {
+      try {
+        report.monthlyFarmReport(Integer.parseInt(s2Month.getValue()),
+            Integer.parseInt(s2Year.getText()), s2DisplayOrSave.isSelected());
+      } catch (NumberFormatException f) {
+        // Shows a pop-up warning if the year is not an integer
+        Alert alert =
+            new Alert(AlertType.WARNING, "Year was entered incorrectly. Please try again");
+        alert.showAndWait().filter(r -> r == ButtonType.OK);
+      }
+    });
+
 
     // Annual Report
     ComboBox<String> s3Year = new ComboBox<String>(years);
@@ -600,7 +618,7 @@ public class Main extends Application {
 
     return vbox;
   }
-  
+
   private VBox bottomStatTitles(String title1, String in1, ComboBox<String> userInput1,
       CheckBox userInput2, Button eb) {
     VBox vbox = vboxFormat();
@@ -615,6 +633,30 @@ public class Main extends Application {
     hbox1.getChildren().addAll(input1, userInput1);
 
     vbox.getChildren().addAll(title, hbox1, userInput2, eb);
+
+    return vbox;
+  }
+
+  private VBox bottomStatTitles(String title1, String in1, String in2, ComboBox<String> userInput1,
+      TextField userInput2, CheckBox cb, Button eb) {
+    VBox vbox = vboxFormat();
+    Label title = new Label(title1);
+    title.setFont(new Font("Arial", 15));
+    title.setStyle("-fx-font-weight: bold");
+
+    // Input 1
+    HBox hbox1 = hboxFormat();
+    Label input1 = new Label(in1);
+    input1.setFont(new Font("Arial", 15));
+    hbox1.getChildren().addAll(input1, userInput1);
+
+    // Input 2
+    HBox hbox2 = hboxFormat();
+    Label input2 = new Label(in2);
+    input2.setFont(new Font("Arial", 15));
+    hbox2.getChildren().addAll(input2, userInput2);
+
+    vbox.getChildren().addAll(title, hbox1, hbox2, cb, eb);
 
     return vbox;
   }
