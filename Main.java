@@ -333,7 +333,7 @@ public class Main extends Application {
     hbox1.getChildren().addAll(direction1, farmID);
 
     HBox hbox2 = hboxFormat();
-    Label direction2 = new Label("Date (Month / Year)");
+    Label direction2 = new Label("Date (Day / Month / Year)");
     direction2.setFont(new Font("Arial", 12));
     ComboBox<String> month = new ComboBox<String>(months);
     ComboBox<String> day = new ComboBox<String>(days);

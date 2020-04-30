@@ -19,6 +19,7 @@
 
 package application;
 
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,6 +38,7 @@ import javafx.scene.control.ButtonType;
 public class Farm implements FarmADT {
   private String FarmID;
   private HashSet<MilkWeightByDay> milkWeights;
+  
 
   /**
    * Accept any string as a farm id. Allow the user to enter the farm ID, and save and store as all
@@ -82,6 +84,24 @@ public class Farm implements FarmADT {
       }
     }
 
+    // check that month and day are feasible (including leap years) 
+    GregorianCalendar c = (GregorianCalendar) GregorianCalendar.getInstance();
+    if (day>28 && month == 2 && !(c.isLeapYear(year))) {
+    	 Alert alert = new Alert(AlertType.WARNING, "There are only 29 days in the selected month");
+         alert.showAndWait().filter(r -> r == ButtonType.OK);
+         return;
+    }
+    if (day>29 && month == 2 && c.isLeapYear(year)) {
+   	 Alert alert = new Alert(AlertType.WARNING, "There are only 29 days in the selected month");
+        alert.showAndWait().filter(r -> r == ButtonType.OK);
+        return;
+   }
+    if (day>30 && (month == 4 || month == 6 || month == 9 || month == 11)) {
+    Alert alert = new Alert(AlertType.WARNING, "There are only 30 days in the selected month");
+    alert.showAndWait().filter(r -> r == ButtonType.OK);
+    return;
+    }
+    
     // If not already in list, add a new entry
     milkWeights.add(new MilkWeightByDay(day, month, year, weight));
   }
