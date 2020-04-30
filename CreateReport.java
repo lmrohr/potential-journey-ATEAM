@@ -1,8 +1,8 @@
 /**
-  * A-Team 121 Final Project
+ * A-Team 121 Final Project
  * 
- * Authors: Lauren Rohr (lmrohr@wisc.edu) Kiley Smith (kasmith32@wisc.edu) Luke Le Clair (lleclair@wisc.edu)
- * Anna Keller (add email)
+ * Authors: Lauren Rohr (lmrohr@wisc.edu) Kiley Smith (kasmith32@wisc.edu) Luke Le Clair
+ * (lleclair@wisc.edu) Anna Keller (add email)
  * 
  * Date: 4/17/2020
  * 
@@ -19,12 +19,17 @@
 
 package application;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 
 /**
- * CreateReport - This class is the base for creating the different types of reports
- * depending on what the user wants.
+ * CreateReport - This class is the base for creating the different types of reports depending on
+ * what the user wants.
  * 
  * @author Lauren Rohr, Kiley Smith, Anna Keller, Luke Le Clair
  */
@@ -121,7 +126,7 @@ public class CreateReport implements CreateReportADT {
    * Sort by Farm ID, or you can allow the user to select display ascending or descending by weight.
    */
   @Override
-  public void yearlyFarmReport(int year) {
+  public void yearlyFarmReport(int year, boolean display) {
     ArrayList<String> farmID = new ArrayList<String>();
     ArrayList<Long> milkWeights = new ArrayList<Long>();
     long totalWeight = 0;
@@ -131,6 +136,33 @@ public class CreateReport implements CreateReportADT {
       farmID.add(farm.getFarmID()); // Add the ID
       milkWeights.add(farm.yearlyTotal(year)); // Add the milkWeight
       totalWeight += farm.yearlyTotal(year); // Update the total weight
+    }
+
+    FileWriter f = null;
+
+    if (display) {
+      // TODO: display results.
+    } else {
+      try {
+        f = new FileWriter("report.txt");
+        f.write("Year: " + year + "\n");
+        f.write("Farm ID\t\t\tFarm Total\t\tPercent of Total\n");
+        for (int i = 0; i < farmID.size(); i++) {
+          f.write(farmID.get(i) + "\t\t\t" + milkWeights.get(i) + "\t\t\t"
+              + (100 * milkWeights.get(i) / totalWeight));
+        }
+      } catch (IOException e) {
+        Alert alert = new Alert(AlertType.WARNING, "Unable to save data");
+        alert.showAndWait().filter(r -> r == ButtonType.OK);
+      } finally {
+        if (f != null)
+          try {
+            f.close();
+          } catch (IOException e) {
+            Alert alert = new Alert(AlertType.WARNING, "Unable to save data");
+            alert.showAndWait().filter(r -> r == ButtonType.OK);
+          }
+      }
     }
 
     // TODO: display results.
@@ -143,8 +175,46 @@ public class CreateReport implements CreateReportADT {
    * received for each month.
    */
   @Override
-  public void FarmReport(String id, int year) {
-    //TODO
+  public void farmReport(String id, int year, boolean display) {
+    long[] allFarmTotal = new long[12];
+    long[] singleFarm = new long[12];
+
+    for (int i = 1; i <= 12; i++) {
+      for (Farm farm : farmSet) {
+        if (farm.getFarmID().equals(id)) {
+          singleFarm[i] = farm.monthlyTotal(i, year);
+        }
+        allFarmTotal[i] += farm.monthlyTotal(i, year);
+      }
+    }
+
+    FileWriter f = null;
+
+    if (display) {
+      // TODO: display things
+    } else {
+      try {
+        f = new FileWriter("report.txt");
+        f.write("Farm ID: " + id + "\n");
+        f.write("Month\t\t\tFarm Total\t\tPercent of Total\n");
+        for (int i = 1; i <= 12; i++) {
+          f.write(i + "\t\t\t" + allFarmTotal[i] + "\t\t\t"
+              + (100 * singleFarm[i] / allFarmTotal[i]) + "\n");
+        }
+      } catch (IOException e) {
+        Alert alert = new Alert(AlertType.WARNING, "Unable to save data");
+        alert.showAndWait().filter(r -> r == ButtonType.OK);
+      } finally {
+        if (f != null)
+          try {
+            f.close();
+          } catch (IOException e) {
+            Alert alert = new Alert(AlertType.WARNING, "Unable to save data");
+            alert.showAndWait().filter(r -> r == ButtonType.OK);
+          }
+      }
+    }
+
 
   }
 

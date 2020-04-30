@@ -57,14 +57,14 @@ public interface CreateReportADT {
    * Display list of total weight and percent of total weight of all farms by farm for the year.
    * Sort by Farm ID, or you can allow the user to select display ascending or descending by weight.
    */
-  public void yearlyFarmReport(int year); // All Farms by year
+  public void yearlyFarmReport(int year, boolean display); // All Farms by year
 
   /**
    * Display the total milk weight and percent of the total of all farm for each month. Sort, the
    * list by month number 1-12, show total weight, then that farm's percent of the total milk
    * received for each month.
    */
-  public void FarmReport(String id, int year); // Statistics Per Farm
+  public void farmReport(String id, int year, boolean display); // Statistics Per Farm
 
   /**
    * Prompt user for start date (year-month-day) and end date (year-month-day), Then display the
