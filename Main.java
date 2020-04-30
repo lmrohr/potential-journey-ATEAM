@@ -21,11 +21,14 @@
  */
 package application;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import application.Main.Result;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -80,10 +83,10 @@ public class Main extends Application {
       new Result("Report Type", "Year"), new Result("Date", "2018"),
       new Result("Farm ID(s)", "F005"), new Result("Milk Amount", "23400"));
   // Sample data for the farm chart
-  final ObservableList<Data> data2 = FXCollections.observableArrayList(
-      new Data("06/08/2010", "F001", "25.00", "24"), new Data("09/24/2012", "F002", "32.00", "8"),
-      new Data("07/12/2014", "F005", "22.76", "19"));
-
+//  final ObservableList<Data> data2 = FXCollections.observableArrayList(
+//      new Data("06/08/2010", "F001", "25.00"), new Data("09/24/2012", "F002", "32.00", "8"),
+//      new Data("07/12/2014", "F005", "22.76", "19"));
+  public static ObservableList<Data> dataList = FXCollections.observableArrayList();
   /**
    * Data type that stores the resulting processed data to be displayed
    */
@@ -120,13 +123,11 @@ public class Main extends Application {
     private final SimpleStringProperty date;
     private final SimpleStringProperty farmID;
     private final SimpleStringProperty milk;
-    private final SimpleStringProperty percent;
 
-    private Data(String date, String farm, String milk, String percent) {
+    Data(String date, String farm, String milk) {
       this.date = new SimpleStringProperty(date);
       this.farmID = new SimpleStringProperty(farm);
       this.milk = new SimpleStringProperty(milk);
-      this.percent = new SimpleStringProperty(percent);
     }
 
     public String getDate() {
@@ -140,10 +141,12 @@ public class Main extends Application {
     public String getMilk() {
       return milk.get();
     }
-
-    public String getPercent() {
-      return percent.get();
+    public void addList(ArrayList<Data> toAdd) {
+      for (int i  = 0; i < toAdd.size(); i++) {
+        dataList.add(toAdd.get(i));
+      }
     }
+
   }
 
   @Override
@@ -228,7 +231,7 @@ public class Main extends Application {
     column2.setCellValueFactory(new PropertyValueFactory<Data, String>("farmID"));
     column3.setCellValueFactory(new PropertyValueFactory<Data, String>("milk"));
     column4.setCellValueFactory(new PropertyValueFactory<Data, String>("percent"));
-    table.setItems(data2);
+    //table.setItems(data2);
     table.getColumns().addAll(column1, column2, column3, column4);
 
     VBox allFarms = vboxFormat();
@@ -293,11 +296,11 @@ public class Main extends Application {
     String title = "Upload Data File";
 
     VBox vbox = vboxFormat();
-    Label direction1 = new Label("Enter Farm ID");
-    direction1.setFont(new Font("Arial", 15));
-    TextField farmID = new TextField();
-    HBox hbox = hboxFormat();
-    hbox.getChildren().addAll(direction1, farmID);
+    //Label direction1 = new Label("Enter Farm ID");
+    //direction1.setFont(new Font("Arial", 15));
+    //TextField farmID = new TextField();
+    //HBox hbox = hboxFormat();
+    //hbox.getChildren().addAll(direction1, farmID);
 
     Label title1 = new Label("Input File Name with Extension");
     title1.setFont(new Font("Arial", 15));
@@ -312,10 +315,10 @@ public class Main extends Application {
     // Add done button
     Button done = buttonFormat("Done", 3);
 
-    vbox.getChildren().addAll(hbox, title1, userInput, direction2, done);
+    vbox.getChildren().addAll( title1, userInput, direction2, done);
     showDialogWindow(primaryStage, vbox, title, done);
   }
-
+  
   public void addDataField(Stage primaryStage) {
     String title = "ADD Data Field";
     VBox vbox = vboxFormat();

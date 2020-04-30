@@ -1,7 +1,7 @@
 /**
  * A-Team 121 Final Project
  * 
- * Authors: Lauren Rohr (lmrohr@wisc.edu) Kiley Smith (add email) Luke Le Clair (lleclair@wisc.edu)
+ * Authors: Lauren Rohr (lmrohr@wisc.edu) Kiley Smith (kasmith32@wisc.edu) Luke Le Clair (lleclair@wisc.edu)
  * Anna Keller (add email)
  * 
  * Date: 4/17/2020
@@ -23,7 +23,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
- * CreateReport - TODO Describe purpose of this user defined type
+ * CreateReport - This class is the base for creating the different types of reports
+ * depending on what the user wants.
  * 
  * @author Lauren Rohr, Kiley Smith, Anna Keller, Luke Le Clair
  */
@@ -143,7 +144,7 @@ public class CreateReport implements CreateReportADT {
    */
   @Override
   public void FarmReport(String id, int year) {
-    // TODO Auto-generated method stub
+    //TODO
 
   }
 

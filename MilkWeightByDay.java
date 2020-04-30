@@ -1,7 +1,7 @@
 /**
  * A-Team 121 Final Project
  * 
- * Authors: Lauren Rohr (lmrohr@wisc.edu) Kiley Smith (add email) Luke Le Clair (lleclair@wisc.edu)
+ * Authors: Lauren Rohr (lmrohr@wisc.edu) Kiley Smith (kasmith32@wisc.edu) Luke Le Clair (lleclair@wisc.edu)
  * Anna Keller (add email)
  * 
  * Date: 4/17/2020
