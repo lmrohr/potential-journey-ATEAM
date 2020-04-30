@@ -132,7 +132,7 @@ public class Farm implements FarmADT {
 	 * @param weight - weight of milk that was added
 	 */
 	@Override
-	public void editMilkWeight(int day, int month, int year, long weight) {
+	public void editMilkWeight(int day, int month, int year, long weight)  {
 		// Pop-up message if the weight is incorrect
 		if (weight < 0) {
 			Alert alert = new Alert(AlertType.WARNING, "Weight cannot be negative");

@@ -20,76 +20,78 @@
 package application;
 
 /**
- * MilkWeightByDay - MilkWeightByDay stores a weight of milk as a long. Also stores ints
- * representing the month and year where that milk was weighed. This class allows the user to see
- * the month, year, and milk weight, but only edit the milk weight.
+ * MilkWeightByDay - MilkWeightByDay stores a weight of milk as a long. Also
+ * stores ints representing the month and year where that milk was weighed. This
+ * class allows the user to see the month, year, and milk weight, but only edit
+ * the milk weight.
  * 
  * @author Lauren Rohr, Kiley Smith, Anna Keller, Luke Le Clair
  */
 public class MilkWeightByDay {
-  private int day;
-  private int month;
-  private int year;
-  private long milkWeight;
+	private int day;
+	private int month;
+	private int year;
+	private long milkWeight;
 
-  /**
-   * Constructor for a MilkWeightByDay object. Initializes an object with a month, year, and weight
-   * of milk.
-   * 
-   * @param month  - month that the milk was from
-   * @param year   - year that the milk was from
-   * @param weight - weight of the milk
-   */
-  public MilkWeightByDay(int day, int month, int year, long weight) {
-    this.day = day;
-    this.month = month;
-    this.year = year;
-    this.setMilkWeight(weight);
-  }
+	/**
+	 * Constructor for a MilkWeightByDay object. Initializes an object with a month,
+	 * year, and weight of milk.
+	 * 
+	 * @param day    - day that the milk was from
+	 * @param month  - month that the milk was from
+	 * @param year   - year that the milk was from
+	 * @param weight - weight of the milk
+	 */
+	public MilkWeightByDay(int day, int month, int year, long weight) {
+		this.day = day;
+		this.month = month;
+		this.year = year;
+		this.setMilkWeight(weight);
+	}
 
-  /**
-   * Returns the day
-   * 
-   * @return - day that milk was weighed
-   */
-  public int getDay() {
-    return day;
-  }
+	/**
+	 * Returns the day
+	 * 
+	 * @return - day that milk was weighed
+	 */
+	public int getDay() {
+		return day;
+	}
 
-  /**
-   * Returns the month
-   * 
-   * @return - month that milk was weighed
-   */
-  public int getMonth() {
-    return month;
-  }
+	/**
+	 * Returns the month
+	 * 
+	 * @return - month that milk was weighed
+	 */
+	public int getMonth() {
+		return month;
+	}
 
-  /**
-   * Returns the year
-   * 
-   * @return - year that milk was weighed
-   */
-  public int getYear() {
-    return year;
-  }
+	/**
+	 * Returns the year
+	 * 
+	 * @return - year that milk was weighed
+	 */
+	public int getYear() {
+		return year;
+	}
 
-  /**
-   * Returns the milk weighed on a given month
-   * 
-   * @return - milk weight for a month/year
-   */
-  public long getMilkWeight() {
-    return milkWeight;
-  }
+	/**
+	 * Returns the milk weighed on a given month
+	 * 
+	 * @return - milk weight for a month/year
+	 */
+	public long getMilkWeight() {
+		return milkWeight;
+	}
 
-  /**
-   * Allows a user to set the milk weight
-   * 
-   * @param milkWeight - new milk weight for a given month/year
-   */
-  public void setMilkWeight(long milkWeight) {
-    this.milkWeight = milkWeight;
-  }
+	/**
+	 * Allows a user to set the milk weight
+	 * 
+	 * @param milkWeight - new milk weight for a given month/year
+	 */
+	public void setMilkWeight(long milkWeight) {
+		this.milkWeight = milkWeight;
+	}
 
 }

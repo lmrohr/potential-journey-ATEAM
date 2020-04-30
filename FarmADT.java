@@ -31,36 +31,37 @@ import java.util.Set;
  */
 public interface FarmADT {
 
-  /**
-   * Allow user to add a valid milk weight to Farm file. The input should remain associated with
-   * date of entry. If weight is not valid do not add and throw pop-up error message.
-   */
-  public void addMilkWeight(int day, int month, int year, long weight);
+	/**
+	 * Allow user to add a valid milk weight to Farm file. The input should remain
+	 * associated with date of entry. If weight is not valid do not add and throw
+	 * pop-up error message.
+	 */
+	public void addMilkWeight(int day, int month, int year, long weight);
 
-  /**
-   * Allow user to replace milk weight for a given date. This new weight must be valid, if not throw
-   * pop-up() and do not change data. If the date does not exist, throw appropriate pop-up message
-   * and do not change data.
-   */
-  public void editMilkWeight(int day, int month, int year, long weight);
+	/**
+	 * Allow user to replace milk weight for a given date. This new weight must be
+	 * valid, if not throw pop-up() and do not change data. If the date does not
+	 * exist, throw appropriate pop-up message and do not change data.
+	 */
+	public void editMilkWeight(int day, int month, int year, long weight);
 
-  /**
-   * Allow user to delete milk weight for a given date. If this is the only entry for this date
-   * remove date and milk weight. If the date does not exist, throw appropriate pop-up message and
-   * do not change data.
-   */
-  public void removeMilkWeight(int day, int month, int year, long weight);
+	/**
+	 * Allow user to delete milk weight for a given date. If this is the only entry
+	 * for this date remove date and milk weight. If the date does not exist, throw
+	 * appropriate pop-up message and do not change data.
+	 */
+	public void removeMilkWeight(int day, int month, int year, long weight);
 
-  /**
-   * Return the total milk weight for given month. Check date is valid and data exists (should be
-   * true because of use of ComboBoxes).
-   */
-  public long monthlyTotal(int month, int year);
+	/**
+	 * Return the total milk weight for given month. Check date is valid and data
+	 * exists (should be true because of use of ComboBoxes).
+	 */
+	public long monthlyTotal(int month, int year);
 
-  /**
-   * Return the total milk weight for given year. Check date is valid and data exists (should be
-   * true because of use of ComboBoxes).
-   */
-  public long yearlyTotal(int year);
+	/**
+	 * Return the total milk weight for given year. Check date is valid and data
+	 * exists (should be true because of use of ComboBoxes).
+	 */
+	public long yearlyTotal(int year);
 
 }

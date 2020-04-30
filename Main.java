@@ -70,7 +70,7 @@ public class Main extends Application {
 
 	// TODO get list of available years and Farms from farm class
 	private FarmLog log = new FarmLog();
-	private ObservableList<String> Farms = log.getFarms(); // TODO is this right
+	private ObservableList<String> Farms = FXCollections.observableArrayList("F004", "F001", "F005"); //log.getFarms(); // TODO is this right
 	private ObservableList<String> years = FXCollections.observableArrayList("2020", "2015", "2000");
 	private static final ObservableList<String> months = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6",
 			"7", "8", "9", "10", "11", "12");
@@ -331,7 +331,7 @@ public class Main extends Application {
 		hbox1.getChildren().addAll(direction1, farmID);
 
 		HBox hbox2 = hboxFormat();
-		Label direction2 = new Label("Date (Day / Month / Year)");
+		Label direction2 = new Label("Date (Month / Day / Year)");
 		direction2.setFont(new Font("Arial", 12));
 		ComboBox<String> month = new ComboBox<String>(months);
 		ComboBox<String> day = new ComboBox<String>(days);
@@ -342,7 +342,7 @@ public class Main extends Application {
 		yearUp.setOnAction(e -> year.setText("" + (++counter) + ""));
 		yearDown.setOnAction(e -> year.setText("" + (--counter) + ""));
 		// TextField year = new TextField();
-		hbox2.getChildren().addAll(direction2, day, month, year, yearDown, yearUp);
+		hbox2.getChildren().addAll(direction2, month, day, year, yearDown, yearUp);
 
 		HBox hbox3 = hboxFormat();
 		Label direction3 = new Label("Milk Weight (lbs)");
@@ -386,11 +386,12 @@ public class Main extends Application {
 		hbox1.getChildren().addAll(direction1, farmID);
 
 		HBox hbox2 = hboxFormat();
-		Label direction2 = new Label("Date (Month / Year)");
+		Label direction2 = new Label("Date (Month / Day / Year)");
 		direction2.setFont(new Font("Arial", 12));
 		ComboBox<String> month = new ComboBox<String>(months);
+		ComboBox<String> day = new ComboBox<String>(days);
 		ComboBox<String> year = new ComboBox<String>(years);
-		hbox2.getChildren().addAll(direction2, month, year);
+		hbox2.getChildren().addAll(direction2, month, day, year);
 
 		HBox hbox3 = hboxFormat();
 		Label direction3 = new Label("Milk Weight (lbs)");
@@ -420,14 +421,20 @@ public class Main extends Application {
 		Label direction1 = new Label("Farm ID");
 		direction1.setFont(new Font("Arial", 12));
 		ComboBox<String> farmID = new ComboBox<String>(Farms);
-		hbox1.getChildren().addAll(direction1, farmID);
+		Button rButton = buttonFormat("Remove All", 3);
+		hbox1.getChildren().addAll(direction1, farmID, rButton);
 
+		HBox hboxtitle = hboxFormat();
+		Label t = new Label("Remove specific data:");
+		hboxtitle.getChildren().addAll(t);
+		
 		HBox hbox2 = hboxFormat();
-		Label direction2 = new Label("Date (Month / Year)");
+		Label direction2 = new Label("Date (Month / Day / Year)");
 		direction2.setFont(new Font("Arial", 12));
 		ComboBox<String> month = new ComboBox<String>(months);
+		ComboBox<String> day = new ComboBox<String>(days);
 		ComboBox<String> year = new ComboBox<String>(years);
-		hbox2.getChildren().addAll(direction2, month, year);
+		hbox2.getChildren().addAll(direction2, month, day, year);
 
 		// Add done button
 		Button done = buttonFormat("Done", 3);
@@ -436,7 +443,7 @@ public class Main extends Application {
 		// month.getSelection(),
 		// year.getSelection(), year.getSelection(), milkWeight.getText());
 
-		vbox.getChildren().addAll(title1, hbox1, hbox2, done);
+		vbox.getChildren().addAll(title1, hbox1, hboxtitle, hbox2, done);
 		showDialogWindow(primaryStage, vbox, title, done);
 	}
 
