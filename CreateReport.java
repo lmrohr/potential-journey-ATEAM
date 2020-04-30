@@ -140,7 +140,7 @@ public class CreateReport implements CreateReportADT {
 			form.addRow(0, new Label(" Year: "), new Label(String.valueOf(year)), new Label(", Month: "),
 					new Label(String.valueOf(month)));
 			form.addRow(1, new Label(" Farm ID    "), new Label(" Farm Total    "), new Label(" Percent Total    "));
-			for (int i = 1; i <= 12; i++) {
+			for (int i = 0; i < farmID.size(); i++) {
 				form.addRow((i + 1), new Label(farmID.get(i)), new Label(Long.toString(milkWeights.get(i))),
 						new Label(Long.toString((100 * milkWeights.get(i) / totalWeight))));
 			}
@@ -199,7 +199,7 @@ public class CreateReport implements CreateReportADT {
 			dialog.show();
 			form.addRow(0, new Label(" Year:"), new Label(String.valueOf(year)));
 			form.addRow(1, new Label(" Farm    "), new Label(" Farm Total    "), new Label(" Percent Total    "));
-			for (int i = 1; i <= 12; i++) {
+			for (int i = 0; i <= farmID.size(); i++) {
 				form.addRow((i + 1), new Label(farmID.get(i)), new Label(Long.toString(milkWeights.get(i))),
 						new Label(Long.toString((100 * milkWeights.get(i) / totalWeight))));
 			}
@@ -240,12 +240,12 @@ public class CreateReport implements CreateReportADT {
 		long[] allFarmTotal = new long[12];
 		long[] singleFarm = new long[12];
 
-		for (int i = 1; i <= 12; i++) {
+		for (int i = 0; i < 12; i++) {
 			for (Farm farm : farmSet) {
 				if (farm.getFarmID().equals(id)) {
-					singleFarm[i] = farm.monthlyTotal(i, year);
+					singleFarm[i] = farm.monthlyTotal(i + 1, year);
 				}
-				allFarmTotal[i] += farm.monthlyTotal(i, year);
+				allFarmTotal[i] += farm.monthlyTotal(i + 1, year);
 			}
 		}
 
@@ -260,8 +260,8 @@ public class CreateReport implements CreateReportADT {
 			dialog.show();
 			form.addRow(0, new Label(" Farm ID:"), new Label(id));
 			form.addRow(1, new Label(" Month    "), new Label(" Farm Total    "), new Label(" Percent Total    "));
-			for (int i = 1; i <= 12; i++) {
-				form.addRow((i + 1), new Label(String.valueOf(i)), new Label(Long.toString(allFarmTotal[i])),
+			for (int i = 0; i < 12; i++) {
+				form.addRow((i + 1), new Label(String.valueOf(i + 1)), new Label(Long.toString(allFarmTotal[i])),
 						new Label(Long.toString((100 * singleFarm[i] / allFarmTotal[i]))));
 			}
 		} else {
@@ -269,8 +269,9 @@ public class CreateReport implements CreateReportADT {
 				f = new FileWriter("report.txt");
 				f.write("Farm ID: " + id + "\n");
 				f.write("Month\t\t\tFarm Total\t\tPercent of Total\n");
-				for (int i = 1; i <= 12; i++) {
-					f.write(i + "\t\t\t" + allFarmTotal[i] + "\t\t\t" + (100 * singleFarm[i] / allFarmTotal[i]) + "\n");
+				for (int i = 0; i < 12; i++) {
+					f.write((i + 1) + "\t\t\t" + allFarmTotal[i] + "\t\t\t" + (100 * singleFarm[i] / allFarmTotal[i])
+							+ "\n");
 				}
 			} catch (IOException e) {
 				Alert alert = new Alert(AlertType.WARNING, "Unable to save data");
