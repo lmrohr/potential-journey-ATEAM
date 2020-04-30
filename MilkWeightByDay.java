@@ -40,7 +40,7 @@ public class MilkWeightByDay {
    * @param year   - year that the milk was from
    * @param weight - weight of the milk
    */
-  MilkWeightByDay(int day, int month, int year, long weight) {
+  public MilkWeightByDay(int day, int month, int year, long weight) {
     this.day = day;
     this.month = month;
     this.year = year;
