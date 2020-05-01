@@ -256,6 +256,9 @@ public class Main extends Application {
      * Bottom panel:
      */
     // Farm Report
+    
+    updateFarmIDs();
+    
     ComboBox<String> s1FarmID = new ComboBox<String>(farms);
     ComboBox<String> s1Year = new ComboBox<String>(years);
     CheckBox s1DisplayOrSave = new CheckBox("Check to display, uncheck to save");

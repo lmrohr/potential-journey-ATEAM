@@ -63,7 +63,11 @@ public class CreateReport implements CreateReportADT {
 	 */
 	public void addFarm(String ID) {
 		farmSet.add(new Farm(ID));
-	
+		for(String id : farmIDs) {
+		  if(id.equals(ID)) {
+		    return;
+		  }
+		}
 		farmIDs.add(ID);
 	}
 
@@ -90,7 +94,12 @@ public class CreateReport implements CreateReportADT {
 		Farm toAdd = new Farm(ID);
 		toAdd.addMilkWeight(day, month, year, weight);
 		farmSet.add(toAdd);
-		farmIDs.add(ID);
+		for(String id : farmIDs) {
+          if(id.equals(ID)) {
+            return;
+          }
+        }
+        farmIDs.add(ID);
 
 	}
 
