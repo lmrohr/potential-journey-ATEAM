@@ -405,10 +405,9 @@ public class Main extends Application {
     // Add done button
     Button done = buttonFormat("Done", 3);
 
-    // TODO: needs work
     // Add to the list of farms
-    done.setOnAction(e -> {
-      log.addFarm(farmID.getText(), Integer.parseInt(day.getValue()),
+    done.setOnMousePressed(e -> {
+      report.addData(farmID.getText(), Integer.parseInt(day.getValue()),
           Integer.parseInt(month.getValue()), Integer.parseInt(year.getText()),
           Long.parseLong(milkWeight.getText()));
       addButtonClicked(farmID.getText(), Integer.parseInt(day.getValue()),
