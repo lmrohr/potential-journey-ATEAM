@@ -138,7 +138,7 @@ public class Main extends Application {
     private final SimpleStringProperty milk;
     private final SimpleStringProperty percent;
 
-    Data(String percent, String farm, String milk) {
+    Data(String farm, String milk, String percent) {
       this.percent = new SimpleStringProperty(percent);
       this.farmID = new SimpleStringProperty(farm);
       this.milk = new SimpleStringProperty(milk);
@@ -351,7 +351,7 @@ public class Main extends Application {
 
     vbox.getChildren().addAll(title1, userInput, direction2, done);
     showDialogWindow(primaryStage, vbox, title, done);
-
+    updateTable();
   }
 
   public void addDataField(Stage primaryStage) {
@@ -709,9 +709,13 @@ public class Main extends Application {
       Farm f = it.next();
       if (f != null) {
         String percent = f.getPercent();
+        Data toAdd = new Data(f.getFarmID(), f.getMilk(), f.getPercent());
+        dataList.add(toAdd);
       }
     }
-    
+    column1.setCellValueFactory(new PropertyValueFactory<Data, String>("farmID"));
+    column2.setCellValueFactory(new PropertyValueFactory<Data, String>("milk"));
+    column3.setCellValueFactory(new PropertyValueFactory<Data, String>("percent"));
   }
   /**
    * @param args
