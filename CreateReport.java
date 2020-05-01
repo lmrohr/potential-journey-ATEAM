@@ -81,6 +81,7 @@ public class CreateReport implements CreateReportADT {
    * @param weight - Weight of the milk to add
    */
   public void addData(String ID, int day, int month, int year, long weight) {
+    ID = ID.toUpperCase();
     // Loop through each farm looking for a match
     for (Farm farm : farmSet) {
       if (ID.equals(farm.getFarmID())) {

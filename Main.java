@@ -449,7 +449,7 @@ public class Main extends Application {
     direction2.setFont(new Font("Arial", 12));
     ComboBox<String> month = new ComboBox<String>(months);
     ComboBox<String> day = new ComboBox<String>(days);
-    ComboBox<String> year = new ComboBox<String>(years);
+    TextField year = new TextField();
     hbox2.getChildren().addAll(direction2, month, day, year);
 
     HBox hbox3 = hboxFormat();
@@ -464,6 +464,15 @@ public class Main extends Application {
     // done.setOnActions(e -> addDataField(farmID.getSelection(),
     // month.getSelection(),
     // year.getSelection(), year.getSelection(), milkWeight.getText());
+    
+    done.setOnMousePressed(e -> {
+      report.addData(farmID.getValue(), Integer.parseInt(day.getValue()),
+          Integer.parseInt(month.getValue()), Integer.parseInt(year.getText()),
+          Long.parseLong(milkWeight.getText()));
+      addButtonClicked(farmID.getValue(), Integer.parseInt(day.getValue()),
+          Integer.parseInt(month.getValue()), Integer.parseInt(year.getText()),
+          Long.parseLong(milkWeight.getText()));
+    });
 
     vbox.getChildren().addAll(title1, hbox1, hbox2, hbox3, done);
     showDialogWindow(primaryStage, vbox, title, done);
