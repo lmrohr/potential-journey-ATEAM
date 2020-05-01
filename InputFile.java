@@ -59,8 +59,6 @@ public class InputFile {
         report.addData(data[1], Integer.parseInt(date[2]), Integer.parseInt(date[1]),
             Integer.parseInt(date[0]), Long.parseLong(data[2]));
         
-        System.out.println("adding data from farm: " + data[1]);
-        
         line = bufRead.readLine(); // next line 
       }
       
