@@ -307,7 +307,7 @@ public class Main extends Application {
 
 
     // Annual Report
-    ComboBox<String> s3Year = new ComboBox<String>(years);
+    TextField s3Year = new TextField();
     CheckBox s3DisplayOrSave = new CheckBox("Check to display, uncheck to save");
     Button eb3 = new Button("Enter");
     // TextField s3FarmID = new TextField();
@@ -315,8 +315,16 @@ public class Main extends Application {
     VBox statNetSales = bottomStatTitles("Annual Report", " Year: ", s3Year, s3DisplayOrSave, eb3);
     // TODO add tables to vbox
 
-    eb3.setOnAction(e -> report.yearlyFarmReport(Integer.parseInt(s3Year.getValue()),
-        s3DisplayOrSave.isSelected()));
+    eb3.setOnAction(e -> {
+      try {
+        report.yearlyFarmReport(Integer.parseInt(s3Year.getText()), s3DisplayOrSave.isSelected());
+      } catch (NumberFormatException f) {
+        // Shows a pop-up warning if the year is not an integer
+        Alert alert =
+            new Alert(AlertType.WARNING, "Year was entered incorrectly. Please try again");
+        alert.showAndWait().filter(r -> r == ButtonType.OK);
+      }
+    });
 
     // Add to bottom pane in horizontal box
     HBox bottomPane = hboxFormat();
@@ -636,7 +644,7 @@ public class Main extends Application {
     return vbox;
   }
 
-  private VBox bottomStatTitles(String title1, String in1, ComboBox<String> userInput1,
+  private VBox bottomStatTitles(String title1, String in1, TextField userInput1,
       CheckBox userInput2, Button eb) {
     VBox vbox = vboxFormat();
     Label title = new Label(title1);

@@ -214,7 +214,7 @@ public class CreateReport implements CreateReportADT {
       form.addRow(0, new Label(" Year:"), new Label(String.valueOf(year)));
       form.addRow(1, new Label(" Farm    "), new Label(" Farm Total    "),
           new Label(" Percent Total    "));
-      for (int i = 0; i <= farmID.size(); i++) {
+      for (int i = 0; i < farmID.size(); i++) {
         form.addRow((i + 1), new Label(farmID.get(i)), new Label(Long.toString(milkWeights.get(i))),
             new Label(Long.toString((100 * milkWeights.get(i) / totalWeight))));
       }
