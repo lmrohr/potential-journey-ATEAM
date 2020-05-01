@@ -241,8 +241,11 @@ public class Main extends Application {
      * Bottom panel:
      */
     // Farm Report
-    ComboBox<String> s1FarmID = new ComboBox<String>(farms);
-    ComboBox<String> s1Year = new ComboBox<String>(years);
+
+    updateFarmIDs();
+
+    TextField s1FarmID = new TextField();
+    TextField s1Year = new TextField();
     CheckBox s1DisplayOrSave = new CheckBox("Check to display, uncheck to save");
     Button eb1 = new Button("Enter");
     // TextField s1FarmID = new TextField();
@@ -251,8 +254,17 @@ public class Main extends Application {
         s1DisplayOrSave, eb1);
     // TODO add tables to vbox
 
-    eb1.setOnAction(e -> report.farmReport(s1FarmID.getValue(), Integer.parseInt(s1Year.getValue()),
-        s1DisplayOrSave.isSelected()));
+    eb1.setOnAction(e -> {
+      try {
+        report.farmReport(s1FarmID.getText(), Integer.parseInt(s1Year.getText()),
+            s1DisplayOrSave.isSelected());
+      } catch (NumberFormatException f) {
+        // Shows a pop-up warning if the year is not an integer
+        Alert alert =
+            new Alert(AlertType.WARNING, "Year was entered incorrectly. Please try again");
+        alert.showAndWait().filter(r -> r == ButtonType.OK);
+      }
+    });
 
     // Monthly Report
     ComboBox<String> s2Month = new ComboBox<String>(months);
@@ -280,7 +292,7 @@ public class Main extends Application {
 
 
     // Annual Report
-    ComboBox<String> s3Year = new ComboBox<String>(years);
+    TextField s3Year = new TextField();
     CheckBox s3DisplayOrSave = new CheckBox("Check to display, uncheck to save");
     Button eb3 = new Button("Enter");
     // TextField s3FarmID = new TextField();
@@ -288,8 +300,16 @@ public class Main extends Application {
     VBox statNetSales = bottomStatTitles("Annual Report", " Year: ", s3Year, s3DisplayOrSave, eb3);
     // TODO add tables to vbox
 
-    eb3.setOnAction(e -> report.yearlyFarmReport(Integer.parseInt(s3Year.getValue()),
-        s3DisplayOrSave.isSelected()));
+    eb3.setOnAction(e -> {
+      try {
+        report.yearlyFarmReport(Integer.parseInt(s3Year.getText()), s3DisplayOrSave.isSelected());
+      } catch (NumberFormatException f) {
+        // Shows a pop-up warning if the year is not an integer
+        Alert alert =
+            new Alert(AlertType.WARNING, "Year was entered incorrectly. Please try again");
+        alert.showAndWait().filter(r -> r == ButtonType.OK);
+      }
+    });
 
     // Add to bottom pane in horizontal box
     HBox bottomPane = hboxFormat();
@@ -322,9 +342,9 @@ public class Main extends Application {
     direction2.setFont(new Font("Arial", 10));
     TextField userInput = new TextField("file name with .csv extension");
     // TODO program text field event, this is where the file name will be collected,
-    // send to another class to handle! 
-    // Input file class called to check syntax of file name and read. 
-    userInput.setOnAction(e -> new InputFile(userInput.getText(), report)); // working 
+    // send to another class to handle!
+    // Input file class called to check syntax of file name and read.
+    userInput.setOnAction(e -> new InputFile(userInput.getText(), report)); // working
 
     // Add done button
     Button done = buttonFormat("Done", 3);
@@ -351,7 +371,7 @@ public class Main extends Application {
     Label direction2 = new Label("Date (Month / Day / Year)");
     direction2.setFont(new Font("Arial", 12));
     ComboBox<String> month = new ComboBox<String>(months); // TODO FIX
-    ComboBox<String> day = new ComboBox<String>(days); // TODO FIX 
+    ComboBox<String> day = new ComboBox<String>(days); // TODO FIX
     // controlled year entry by incrementing with +,- buttons
     Button yearUp = new Button("+");
     Button yearDown = new Button("-");
@@ -414,13 +434,13 @@ public class Main extends Application {
     HBox hbox1 = hboxFormat();
     Label direction1 = new Label("Farm ID");
     direction1.setFont(new Font("Arial", 12));
-    
-    
-    // Update farm list 
+
+
+    // Update farm list
     farms = FXCollections.observableList(report.farmIDlog());
-    
-    
-    
+
+
+
     ComboBox<String> farmID = new ComboBox<String>(farms);
     Button next = buttonFormat("Next", 3);
     hbox1.getChildren().addAll(direction1, farmID, next);
@@ -609,7 +629,7 @@ public class Main extends Application {
     return vbox;
   }
 
-  private VBox bottomStatTitles(String title1, String in1, ComboBox<String> userInput1,
+  private VBox bottomStatTitles(String title1, String in1, TextField userInput1,
       CheckBox userInput2, Button eb) {
     VBox vbox = vboxFormat();
     Label title = new Label(title1);
@@ -651,8 +671,8 @@ public class Main extends Application {
     return vbox;
   }
 
-  private VBox bottomStatTitles(String title1, String in1, String in2, ComboBox<String> userInput1,
-      ComboBox<String> userInput2, CheckBox cb, Button eb) {
+  private VBox bottomStatTitles(String title1, String in1, String in2, TextField userInput1,
+      TextField userInput2, CheckBox cb, Button eb) {
     VBox vbox = vboxFormat();
     Label title = new Label(title1);
     title.setFont(new Font("Arial", 15));
@@ -674,7 +694,7 @@ public class Main extends Application {
 
     return vbox;
   }
-  
+
   /**
    * update list of farm IDs button
    */
