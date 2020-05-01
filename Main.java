@@ -100,6 +100,7 @@ public class Main extends Application {
   TableColumn<Data, String> column1 = new TableColumn<>("Farm ID");
   TableColumn<Data, String> column2 = new TableColumn<>("Milk Amount (lbs)");
   TableColumn<Data, String> column3 = new TableColumn<>("Percent Share");
+
   /**
    * Data type that stores the resulting processed data to be displayed
    */
@@ -344,7 +345,10 @@ public class Main extends Application {
     // TODO program text field event, this is where the file name will be collected,
     // send to another class to handle!
     // Input file class called to check syntax of file name and read.
-    userInput.setOnAction(e -> new InputFile(userInput.getText(), report)); // working
+    userInput.setOnAction(e -> {
+      new InputFile(userInput.getText(), report);
+      updateTable();
+    }); // working
 
     // Add done button
     Button done = buttonFormat("Done", 3);
@@ -398,6 +402,7 @@ public class Main extends Application {
       addButtonClicked(farmID.getText(), Integer.parseInt(day.getValue()),
           Integer.parseInt(month.getValue()), Integer.parseInt(year.getText()),
           Long.parseLong(milkWeight.getText()));
+      updateTable();
     });
 
     // Add to layout
@@ -465,7 +470,7 @@ public class Main extends Application {
     // done.setOnActions(e -> addDataField(farmID.getSelection(),
     // month.getSelection(),
     // year.getSelection(), year.getSelection(), milkWeight.getText());
-    
+
     done.setOnMousePressed(e -> {
       report.addData(farmID.getValue(), Integer.parseInt(day.getValue()),
           Integer.parseInt(month.getValue()), Integer.parseInt(year.getText()),
@@ -505,7 +510,7 @@ public class Main extends Application {
     direction2.setFont(new Font("Arial", 12));
     ComboBox<String> month = new ComboBox<String>(months);
     ComboBox<String> day = new ComboBox<String>(days);
-    ComboBox<String> year = new ComboBox<String>(years);
+    TextField year = new TextField();
     hbox2.getChildren().addAll(direction2, month, day, year);
 
     // Add done button
@@ -514,6 +519,11 @@ public class Main extends Application {
     // done.setOnActions(e -> addDataField(farmID.getSelection(),
     // month.getSelection(),
     // year.getSelection(), year.getSelection(), milkWeight.getText());
+
+    done.setOnMousePressed(e -> {
+      report.removeData(farmID.getValue(), Integer.parseInt(day.getValue()),
+          Integer.parseInt(month.getValue()), Integer.parseInt(year.getText()));
+    });
 
     vbox.getChildren().addAll(title1, hbox1, hboxtitle, hbox2, done);
     showDialogWindow(primaryStage, vbox, title, done);
@@ -712,11 +722,11 @@ public class Main extends Application {
   private void updateFarmIDs() {
     farms = FXCollections.observableList(report.farmIDlog());
   }
-  
+
   private void updateTable() {
     HashSet<Farm> farmList = report.farmSet;
     Iterator<Farm> it = farmList.iterator();
-    while(it.hasNext()) {
+    while (it.hasNext()) {
       Farm f = it.next();
       if (f != null) {
         String percent = f.getPercent();
@@ -726,6 +736,7 @@ public class Main extends Application {
     }
     table.refresh();
   }
+
   /**
    * @param args
    */

@@ -101,8 +101,19 @@ public class CreateReport implements CreateReportADT {
       }
     }
     farmIDs.add(ID);
+  }
+
+  public void removeData(String ID, int day, int month, int year) {
+    ID = ID.toUpperCase();
+
+    for (Farm farm : farmSet) {
+      if (farm.getFarmID().equals(ID)) {
+        farm.removeMilkWeight(day, month, year);
+      }
+    }
 
   }
+
 
   /**
    * Returns percentage share of net sales (percentage milk weight entered in given year compared to

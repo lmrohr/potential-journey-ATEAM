@@ -110,11 +110,10 @@ public class Farm implements FarmADT {
     // If not already in list, add a new entry
     milkWeights.add(new MilkWeightByDay(day, month, year, weight));
     String y = Integer.toString(year);
-    if(yearLog == null) {
+    if (yearLog == null) {
       yearLog = new ArrayList<String>();
       yearLog.add(y);
-    }
-    else if (!yearLog.contains(y)) {
+    } else if (!yearLog.contains(y)) {
       yearLog.add(y);
     }
   }
@@ -173,7 +172,7 @@ public class Farm implements FarmADT {
    * @param weight - weight of milk that was added
    */
   @Override
-  public void removeMilkWeight(int day, int month, int year, long weight) {
+  public void removeMilkWeight(int day, int month, int year) {
     // Loop through each entry until a matching month/year is found
     for (MilkWeightByDay date : milkWeights) {
       if (date.getDay() == day && date.getMonth() == month && date.getYear() == year) {
@@ -269,11 +268,11 @@ public class Farm implements FarmADT {
   public String getMilk() {
     return Long.toString(milkWeight);
   }
-  
+
   public String getPercent() {
     return "35";
   }
-  
+
   public HashSet<MilkWeightByDay> getMilkWeightByDay() {
     return milkWeights;
   }
