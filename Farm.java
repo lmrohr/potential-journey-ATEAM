@@ -110,7 +110,11 @@ public class Farm implements FarmADT {
     // If not already in list, add a new entry
     milkWeights.add(new MilkWeightByDay(day, month, year, weight));
     String y = Integer.toString(year);
-    if (!yearLog.contains(y)) {
+    if(yearLog == null) {
+      yearLog = new ArrayList<String>();
+      yearLog.add(y);
+    }
+    else if (!yearLog.contains(y)) {
       yearLog.add(y);
     }
   }

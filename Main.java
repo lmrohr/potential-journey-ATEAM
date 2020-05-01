@@ -330,21 +330,16 @@ public class Main extends Application {
     String title = "Upload Data File";
 
     VBox vbox = vboxFormat();
-    // Label direction1 = new Label("Enter Farm ID");
-    // direction1.setFont(new Font("Arial", 15));
-    // TextField farmID = new TextField();
-    // HBox hbox = hboxFormat();
-    // hbox.getChildren().addAll(direction1, farmID);
 
-    Label title1 = new Label("Input File Name with Extension");
+    Label title1 = new Label("Input CSV File Name");
     title1.setFont(new Font("Arial", 15));
     Label direction2 = new Label("enter file name, hit enter, then done");
     direction2.setFont(new Font("Arial", 10));
-    TextField userInput = new TextField();
+    TextField userInput = new TextField("file name with .csv extension");
     // TODO program text field event, this is where the file name will be collected,
-    // send to another
-    // class to handle! Below is a possible method call from the event
-    // userInput.setOnAction(e -> newDataFile(userInput.getText()));
+    // send to another class to handle! 
+    // Input file class called to check syntax of file name and read. 
+    userInput.setOnAction(e -> new InputFile(userInput.getText(), report)); // working 
 
     // Add done button
     Button done = buttonFormat("Done", 3);
