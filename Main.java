@@ -259,8 +259,8 @@ public class Main extends Application {
     
     updateFarmIDs();
     
-    ComboBox<String> s1FarmID = new ComboBox<String>(farms);
-    ComboBox<String> s1Year = new ComboBox<String>(years);
+    TextField s1FarmID = new TextField();
+    TextField s1Year = new TextField();
     CheckBox s1DisplayOrSave = new CheckBox("Check to display, uncheck to save");
     Button eb1 = new Button("Enter");
     // TextField s1FarmID = new TextField();
@@ -269,7 +269,7 @@ public class Main extends Application {
         s1DisplayOrSave, eb1);
     // TODO add tables to vbox
 
-    eb1.setOnAction(e -> report.farmReport(s1FarmID.getValue(), Integer.parseInt(s1Year.getValue()),
+    eb1.setOnAction(e -> report.farmReport(s1FarmID.getText(), Integer.parseInt(s1Year.getText()),
         s1DisplayOrSave.isSelected()));
 
     // Monthly Report
@@ -669,8 +669,8 @@ public class Main extends Application {
     return vbox;
   }
 
-  private VBox bottomStatTitles(String title1, String in1, String in2, ComboBox<String> userInput1,
-      ComboBox<String> userInput2, CheckBox cb, Button eb) {
+  private VBox bottomStatTitles(String title1, String in1, String in2, TextField userInput1,
+      TextField userInput2, CheckBox cb, Button eb) {
     VBox vbox = vboxFormat();
     Label title = new Label(title1);
     title.setFont(new Font("Arial", 15));
