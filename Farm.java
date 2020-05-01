@@ -273,4 +273,8 @@ public class Farm implements FarmADT {
   public String getPercent() {
     return "35";
   }
+  
+  public HashSet<MilkWeightByDay> getMilkWeightByDay() {
+    return milkWeights;
+  }
 }

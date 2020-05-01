@@ -28,6 +28,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
@@ -93,9 +95,11 @@ public class Main extends Application {
   // new Data("06/08/2010", "F001", "25.00"), new Data("09/24/2012", "F002", "32.00", "8"),
   // new Data("07/12/2014", "F005", "22.76", "19"));
   public static ObservableList<Data> dataList = FXCollections.observableArrayList();
-  TableView<Data> table;
+  TableView<Data> table = new TableView<Data>();
   CreateReport report;
-
+  TableColumn<Data, String> column1 = new TableColumn<>("Farm ID");
+  TableColumn<Data, String> column2 = new TableColumn<>("Milk Amount (lbs)");
+  TableColumn<Data, String> column3 = new TableColumn<>("Percent Share");
   /**
    * Data type that stores the resulting processed data to be displayed
    */
@@ -130,18 +134,18 @@ public class Main extends Application {
    * 
    */
   public static class Data {
-    private final SimpleStringProperty date;
     private final SimpleStringProperty farmID;
     private final SimpleStringProperty milk;
+    private final SimpleStringProperty percent;
 
-    Data(String date, String farm, String milk) {
-      this.date = new SimpleStringProperty(date);
+    Data(String farm, String milk, String percent) {
+      this.percent = new SimpleStringProperty(percent);
       this.farmID = new SimpleStringProperty(farm);
       this.milk = new SimpleStringProperty(milk);
     }
 
-    public String getDate() {
-      return date.get();
+    public String getPercent() {
+      return percent.get();
     }
 
     public String getFarmID() {
@@ -186,21 +190,9 @@ public class Main extends Application {
     Button removeData = buttonFormat("Remove Data Field", 1);
     removeData.setMinWidth(dataInputOptions.getPrefWidth());
     // New table to store the results of the report
-    TableView<Result> results = new TableView<>();
-    TableColumn<Result, String> label = new TableColumn("Label");
-    TableColumn<Result, String> output = new TableColumn("Result");
-
-    label.setMinWidth(100);
-    output.setMinWidth(100);
-    // sets each type of the different columns
-    label.setCellValueFactory(new PropertyValueFactory<Result, String>("label"));
-    output.setCellValueFactory(new PropertyValueFactory<Result, String>("result"));
-    results.setItems(data);
-    results.getColumns().addAll(label, output);
     root.setLeft(dataInputOptions);
     // Add buttons
-    dataInputOptions.getChildren().addAll(newDataFile, addDataPoint, editDataField, removeData,
-        results);
+    dataInputOptions.getChildren().addAll(newDataFile, addDataPoint, editDataField, removeData);
     // Add to main scene
 
     /*
@@ -230,22 +222,15 @@ public class Main extends Application {
     HBox timeSelect = hboxFormat();
     timeSelect.setPrefWidth(150); // Preferred with of each element in the hbox
     timeSelect.getChildren().addAll(allFarmLabel, byYear, byMonth);
-    // TODO create display tables
-    table = new TableView<Data>();
-    TableColumn<Data, String> column1 = new TableColumn<>("Date");
-    TableColumn<Data, String> column2 = new TableColumn<>("Farm ID");
-    TableColumn<Data, String> column3 = new TableColumn<>("Milk Amount (lbs)");
-    TableColumn<Data, String> column4 = new TableColumn<>("Percent Share");
-    column1.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
-    column2.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
-    column3.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
-    column4.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
-    column1.setCellValueFactory(new PropertyValueFactory<Data, String>("date"));
-    column2.setCellValueFactory(new PropertyValueFactory<Data, String>("farmID"));
-    column3.setCellValueFactory(new PropertyValueFactory<Data, String>("milk"));
-    column4.setCellValueFactory(new PropertyValueFactory<Data, String>("percent"));
+
+    column1.prefWidthProperty().bind(table.widthProperty().multiply(0.33));
+    column2.prefWidthProperty().bind(table.widthProperty().multiply(0.33));
+    column3.prefWidthProperty().bind(table.widthProperty().multiply(0.33));
+    column1.setCellValueFactory(new PropertyValueFactory<Data, String>("farmID"));
+    column2.setCellValueFactory(new PropertyValueFactory<Data, String>("milk"));
+    column3.setCellValueFactory(new PropertyValueFactory<Data, String>("percent"));
     // table.setItems(data2);
-    table.getColumns().addAll(column1, column2, column3, column4);
+    table.getColumns().addAll(column1, column2, column3);
 
     VBox allFarms = vboxFormat();
     allFarms.getChildren().addAll(timeSelect, table);
@@ -366,7 +351,7 @@ public class Main extends Application {
 
     vbox.getChildren().addAll(title1, userInput, direction2, done);
     showDialogWindow(primaryStage, vbox, title, done);
-
+    updateTable();
   }
 
   public void addDataField(Stage primaryStage) {
@@ -715,7 +700,22 @@ public class Main extends Application {
   private void updateFarmIDs() {
     farms = FXCollections.observableList(report.farmIDlog());
   }
-
+  
+  private void updateTable() {
+    HashSet<Farm> farmList = report.farmSet;
+    Iterator<Farm> it = farmList.iterator();
+    while(it.hasNext()) {
+      Farm f = it.next();
+      if (f != null) {
+        String percent = f.getPercent();
+        Data toAdd = new Data(f.getFarmID(), f.getMilk(), f.getPercent());
+        dataList.add(toAdd);
+      }
+    }
+    column1.setCellValueFactory(new PropertyValueFactory<Data, String>("farmID"));
+    column2.setCellValueFactory(new PropertyValueFactory<Data, String>("milk"));
+    column3.setCellValueFactory(new PropertyValueFactory<Data, String>("percent"));
+  }
   /**
    * @param args
    */
