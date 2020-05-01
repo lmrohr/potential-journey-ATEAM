@@ -346,6 +346,7 @@ public class Main extends Application {
 
     vbox.getChildren().addAll(title1, userInput, direction2, done);
     showDialogWindow(primaryStage, vbox, title, done);
+
   }
 
   public void addDataField(Stage primaryStage) {
@@ -364,8 +365,8 @@ public class Main extends Application {
     HBox hbox2 = hboxFormat();
     Label direction2 = new Label("Date (Month / Day / Year)");
     direction2.setFont(new Font("Arial", 12));
-    ComboBox<String> month = new ComboBox<String>(months);
-    ComboBox<String> day = new ComboBox<String>(days);
+    ComboBox<String> month = new ComboBox<String>(months); // TODO FIX
+    ComboBox<String> day = new ComboBox<String>(days); // TODO FIX 
     // controlled year entry by incrementing with +,- buttons
     Button yearUp = new Button("+");
     Button yearDown = new Button("-");
@@ -428,6 +429,13 @@ public class Main extends Application {
     HBox hbox1 = hboxFormat();
     Label direction1 = new Label("Farm ID");
     direction1.setFont(new Font("Arial", 12));
+    
+    
+    // Update farm list 
+    farms = FXCollections.observableList(report.farmIDlog());
+    
+    
+    
     ComboBox<String> farmID = new ComboBox<String>(farms);
     Button next = buttonFormat("Next", 3);
     hbox1.getChildren().addAll(direction1, farmID, next);
@@ -467,6 +475,8 @@ public class Main extends Application {
     HBox hbox1 = hboxFormat();
     Label direction1 = new Label("Farm ID");
     direction1.setFont(new Font("Arial", 12));
+    // update farm list
+    farms = FXCollections.observableList(report.farmIDlog());
     ComboBox<String> farmID = new ComboBox<String>(farms);
     Button rButton = buttonFormat("Remove All", 3);
     hbox1.getChildren().addAll(direction1, farmID, rButton);
@@ -678,6 +688,13 @@ public class Main extends Application {
     vbox.getChildren().addAll(title, hbox1, hbox2, cb, eb);
 
     return vbox;
+  }
+  
+  /**
+   * update list of farm IDs button
+   */
+  private void updateFarmIDs() {
+    farms = FXCollections.observableList(report.farmIDlog());
   }
 
   /**

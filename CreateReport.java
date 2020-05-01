@@ -63,6 +63,7 @@ public class CreateReport implements CreateReportADT {
 	 */
 	public void addFarm(String ID) {
 		farmSet.add(new Farm(ID));
+	
 		farmIDs.add(ID);
 	}
 
