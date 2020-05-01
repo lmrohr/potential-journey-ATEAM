@@ -165,7 +165,7 @@ public class Main extends Application {
     // Initialize the CreateReport object
     report = new CreateReport();
     log = new FarmLog();
-    farms = log.getFarms();
+    farms = FXCollections.observableList(report.farmIDlog());
 
     // Main layout is Border Pane example (top,left,center,right,bottom)
     BorderPane root = new BorderPane();

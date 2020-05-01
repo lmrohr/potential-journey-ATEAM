@@ -23,7 +23,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-
+import java.util.List;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -46,12 +46,14 @@ import javafx.scene.text.Font;
  */
 public class CreateReport implements CreateReportADT {
 	HashSet<Farm> farmSet;
+	List<String> farmIDs;
 
 	/**
 	 * Constructor for a CreateReport object. Initializes a HashSet of Farm object.
 	 */
 	CreateReport() {
 		farmSet = new HashSet<Farm>();
+		farmIDs = new ArrayList<String>();
 	}
 
 	/**
@@ -61,6 +63,7 @@ public class CreateReport implements CreateReportADT {
 	 */
 	public void addFarm(String ID) {
 		farmSet.add(new Farm(ID));
+		farmIDs.add(ID);
 	}
 
 	/**
@@ -86,6 +89,7 @@ public class CreateReport implements CreateReportADT {
 		Farm toAdd = new Farm(ID);
 		toAdd.addMilkWeight(day, month, year, weight);
 		farmSet.add(toAdd);
+		farmIDs.add(ID);
 
 	}
 
@@ -287,6 +291,10 @@ public class CreateReport implements CreateReportADT {
 			}
 		}
 
+	}
+	
+	public List<String> farmIDlog(){
+	  return farmIDs;
 	}
 
 	/**
