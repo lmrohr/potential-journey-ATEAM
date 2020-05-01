@@ -403,6 +403,7 @@ public class Main extends Application {
     // Add to layout
     vbox.getChildren().addAll(title1, hbox1, hbox2, hbox3, done);
     showDialogWindow(primaryStage, vbox, title, done);
+    updateTable();
   }
 
   /**
@@ -476,6 +477,7 @@ public class Main extends Application {
 
     vbox.getChildren().addAll(title1, hbox1, hbox2, hbox3, done);
     showDialogWindow(primaryStage, vbox, title, done);
+    updateTable();
   }
 
   public void removeDataField(Stage primaryStage) {
@@ -515,6 +517,7 @@ public class Main extends Application {
 
     vbox.getChildren().addAll(title1, hbox1, hboxtitle, hbox2, done);
     showDialogWindow(primaryStage, vbox, title, done);
+    updateTable();
   }
 
   public void Label() {
@@ -721,9 +724,7 @@ public class Main extends Application {
         dataList.add(toAdd);
       }
     }
-    column1.setCellValueFactory(new PropertyValueFactory<Data, String>("farmID"));
-    column2.setCellValueFactory(new PropertyValueFactory<Data, String>("milk"));
-    column3.setCellValueFactory(new PropertyValueFactory<Data, String>("percent"));
+    table.refresh();
   }
   /**
    * @param args
