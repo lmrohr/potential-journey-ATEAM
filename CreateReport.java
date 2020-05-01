@@ -269,7 +269,6 @@ public class CreateReport implements CreateReportADT {
     }
 
     if (!validID) {
-      System.out.println(id);
       Alert alert = new Alert(AlertType.WARNING, "Farm ID is not valid");
       alert.showAndWait().filter(r -> r == ButtonType.OK);
       return;
